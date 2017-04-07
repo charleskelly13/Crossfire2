@@ -22,6 +22,11 @@ struct Players
    int	 Place;
 };
 
+enum dead {
+	alive, 
+	dead
+	};
+
 void boost(struct Players *Player, struct Slots *slot);		//changing stats depending on slot type
 void deboost(struct Players *Player, struct Slots *slot);	//removing stats when player moves off some slot types
 void type(struct Players *Player);		//give player a type
@@ -31,15 +36,17 @@ void assignSlots(struct Slots *slot, int i);				//put ground type on slots
 void attack(struct Players *attacker, struct Players *attacked);			//attack function
 int move(struct Players *Player, int x, int playernumber, int slotnum);		//function to move players
 void assignPlace(struct Players *Player, int SlotNumber);	//place players on slots
+void magattack(struct Players *attacker, struct Players *attacked);
+void disattack(struct Players *attacker, struct Players *attacked);
 
 int main(void)
 {
 	srand(time(NULL));
 
-	int PlayerNum, j, slot_no, i, choice, max, v=0, second, r=0, k, l, dif, counter=0, atk=0;
+	int PlayerNum, j, slot_no, i, choice, max, v=0, second, r=0, k, l, dif, counter=0, atk;
 	struct Players Player[6];
-	struct Slots slot[7][7];
-
+	struct Slots slot[20];
+	enum dead status[i];
 	//pick between 2 and 6
 	printf("Enter the number of players you want, between 2 and 6:"); //gives number of players
 	scanf("%d", &PlayerNum);
@@ -51,7 +58,7 @@ int main(void)
 		scanf("%d", &PlayerNum);
 		getchar();		//so it reads in the new line char
 	}
-
+	int death = PlayerNum;
 	for(j=0; j<PlayerNum; j++)	//player name/type/stat
 	{
 		printf("\n\nEnter player name: ");
@@ -60,23 +67,29 @@ int main(void)
 		stat(&Player[j]);		//assign stats
 		printf( "\nPlayer [%d]: %sPlayer Type: %s\nStrength: %d\nMagic: %d\nDexterity: %d\nLuck: %d\nSmartness: %d\n", j+1, Player[j].Name, Player[j].Race, Player[j].Strength, Player[j].MagicSkills, Player[j].Dexterity, Player[j].Luck, Player[j].Smartness);
 	}
+
+	selectNumSlots(&slot_no, PlayerNum);		//function for calling selecting amount of slots
+
+	for(i=0; i<2; i++)	//selecting slots
+	{		//checks conditions for slots size
+		if(slot_no<PlayerNum || slot_no>20)
+		{
+			printf("This number is not between %d and 20\n", PlayerNum);
+			selectNumSlots(&slot_no, PlayerNum);
+			i=0;
+		}
+	}
 	printf("\n");
 	
 	//calls function for placing random types on slots
-	i=0;
-	while( i<7)
-	{ j=0;
-		while(j<7)
-		{
-		assignSlots(&slot[i][j], i);
-		printf("%d %d: %s\n", i, j, slot[i][j].type);
-		j=j+1;
-		}
-		i=i+1;
+	for(i=0; i<slot_no; i++)
+	{
+		assignSlots(&slot[i], i);
+		printf("%d: %s\n", slot[i].place, slot[i].type);
 	}
 
 
-	/*for(i=0; i<PlayerNum; i++)	//assign players to slots
+	for(i=0; i<PlayerNum; i++)	//assign players to slots
 	{
 		assignPlace(&Player[i], slot_no); 
 		for(j=0; j<i; j++)			//if there is already a player in this place i decrements and slot is assigned again
@@ -86,10 +99,10 @@ int main(void)
 				i--;
 			}
 		}
-		//boost(&Player[i], &slot[Player[i].Place-1]);		//boosts are assigned to players if they are on hill or city, it's player.Place-1 because
+		boost(&Player[i], &slot[Player[i].Place-1]);		//boosts are assigned to players if they are on hill or city, it's player.Place-1 because
 	}														//display starts at 1 while the struct arrays start at 0
 
-	/*for(j=0; j<slot_no; j++)	//prints out player positions
+	for(j=0; j<slot_no; j++)	//prints out player positions
 	{
 		for(k=0; k<PlayerNum; k++)
 		{
@@ -107,10 +120,14 @@ int main(void)
 			}
 		}
 		counter=0;
-	}*/
+	}
 
-	/*for(i=0; i<PlayerNum; i++) //move or attack
+	for(i=0; i<PlayerNum && death>1; i++) //move or attack
 	{
+		if(status[i]!=dead)
+		{
+		
+		
 		//player[i] choice - move or attack
 		printf("\n%sDo you want to move or attack?\nEnter 1 to move or 2 to attack\n", Player[i].Name);
 		scanf("%d", &choice);
@@ -125,31 +142,31 @@ int main(void)
 		}
 
 		//if move -> move function
-		/*if(choice==1)
+		if(choice==1)
 		{
 			deboost(&Player[i], &slot[Player[i].Place-1]);		//removes change of stats before moving
 			choice = move(&Player[0], i, PlayerNum, slot_no);	//moves player
 			boost(&Player[i], &slot[Player[i].Place-1]);		//changes stats according to type of slot
-		}*/
+		}
 
 		//if attack -> attack function
-		/*if(choice==2)
+		if(choice==2)
 		{
 			if(Player[i].Smartness+Player[i].MagicSkills>150)
 			{
 				printf("Enter 1 for a near attack, 2 for a distant attack or 3 for a magic attack:");
 				scanf("%d", &atk);
-				while(atk!=1 || atk!=2 || atk!=3)
+				while(atk!=1 && atk!=2 && atk!=3)
 				{
 					printf("That is not a valid input. \nEnter 1 for a near attack, 2 for a distant attack or 3 for a magic attack:");
-					scanf("%d", &attack);
+					scanf("%d", &atk);
 				}
 			}
 			else
 			{
 				printf("Enter 1 for a near attack or 2 for a distant attack:");
 				scanf("%d", &atk);
-				while(atk!=1 || atk!=2)
+				while(atk!=1 && atk!=2)
 				{
 					printf("That is not a valid input. \nEnter 1 for a near attack or 2 for a distant attack:");
 					scanf("%d", &atk);
@@ -205,6 +222,41 @@ int main(void)
 					attack(&Player[i], &Player[v]);
 				}
 			}
+			
+		}
+		if(atk==3)
+			{
+				int p=0;
+				printf("%d", i);
+				printf("Choose a player to attack:");
+				scanf("%d", &p);
+				while(p-1==i || p-1>PlayerNum || p<0)
+				{
+					printf("Choose a player to attack:");
+					scanf("%d", &p);
+					if(p-1==i)
+					{
+						printf("1");
+					}if(p-1>PlayerNum)
+					{
+						printf("2");
+					}if(p<0)
+					{
+						printf("3");
+					}
+				}
+				magattack(&Player[i], &Player[p-1]);
+			}
+			l=0;
+			while(l<PlayerNum)
+			if(Player[i].LifePoints<=0)
+			{
+				if(status[i]!=dead)
+				{
+					status[i]= dead;
+					death=death-1;
+				}
+			}
 		}
 		}
 		//print stats after each player
@@ -214,7 +266,7 @@ int main(void)
 		}
 		printf("\n");
 		
-		/*for(j=0; j<slot_no; j++)
+		for(j=0; j<slot_no; j++)
 		{
 			for(k=0; k<PlayerNum; k++)
 			{
@@ -232,8 +284,8 @@ int main(void)
 				}
 			}
 			counter=0;
-		}*/
-	//}
+		}
+	}
 	return 0;
 }
 
@@ -338,7 +390,7 @@ void assignSlots(struct Slots *slot, int i)		//slot ground type function
 {
 	int random=0;
 	
-	slot->place=1;		//give value of 1 to slot number on slots for display
+	slot->place=i+1;		//give value of 1 to slot number on slots for display
 	
 	random = 1+rand()%3;	//three possible slot types
 	if(random==1)			//if random is 1 then slot type is ground
