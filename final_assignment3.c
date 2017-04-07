@@ -121,8 +121,9 @@ int main(void)
 		}
 		counter=0;
 	}
-
-	for(i=0; i<PlayerNum && death>1; i++) //move or attack
+	while(death>1)
+	{
+	for(i=0; i<PlayerNum ; i++) //move or attack
 	{
 		if(status[i]!=dead)
 		{
@@ -178,6 +179,8 @@ int main(void)
 			{
 			while(k<PlayerNum)		//checks for the closest player
 			{
+				if(status[k]!=dead)
+				{
 				dif=Player[i].Place-Player[k].Place;
 				if(dif<0)
 				{
@@ -193,6 +196,7 @@ int main(void)
 				{
 					second=max;
 					r=k;
+				}
 				}
 				k=k+1;
 			}
@@ -227,44 +231,45 @@ int main(void)
 		if(atk==3)
 			{
 				int p=0;
-				printf("%d", i);
 				printf("Choose a player to attack:");
 				scanf("%d", &p);
-				while(p-1==i || p-1>PlayerNum || p<0)
+				while(p-1==i || p-1>PlayerNum || p<0 || status[p-1]==dead)
 				{
 					printf("Choose a player to attack:");
 					scanf("%d", &p);
-					if(p-1==i)
-					{
-						printf("1");
-					}if(p-1>PlayerNum)
-					{
-						printf("2");
-					}if(p<0)
-					{
-						printf("3");
-					}
 				}
 				magattack(&Player[i], &Player[p-1]);
 			}
 			l=0;
 			while(l<PlayerNum)
-			if(Player[i].LifePoints<=0)
 			{
-				if(status[i]!=dead)
+			if(Player[l].LifePoints<=0)
+			{
+				if(status[l]!=dead)
 				{
-					status[i]= dead;
+					status[l]= dead;
 					death=death-1;
 				}
 			}
+			l=l+1;
+			}
 		}
 		}
+	
 		//print stats after each player
 		for(j=0; j<PlayerNum; j++)
 		{
+			if(status[j]==dead)
+			{
+				printf("\n Player %d is dead\n", j+1);
+			}
+			else
+			{
 			printf("\nP%d:%s(%s, %d)\n", j+1, Player[j].Name, Player[j].Race, Player[j].LifePoints);
+			}
 		}
 		printf("\n");
+	
 		
 		for(j=0; j<slot_no; j++)
 		{
@@ -285,6 +290,7 @@ int main(void)
 			}
 			counter=0;
 		}
+	}
 	}
 	return 0;
 }
