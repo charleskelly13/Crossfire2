@@ -7,7 +7,7 @@
 
 int main()
 {
-	int Player_Num;
+	int Player_Num, count=0, i;
 	setvbuf(stdout, 0, _IONBF, 0);
 	Player_Num = PlayerData();
 
@@ -16,7 +16,6 @@ int main()
 	struct slot* currSlot = NULL;
 	struct slot *foundSlots;
 	bool explored[BOARDSIZE][BOARDSIZE];
-	int count = 0;
 
 	//pointer to slot (0,0)
 	struct slot *upLeft;
@@ -37,6 +36,18 @@ int main()
 	BoardType();
 	assignPlace(Player_Num);
 
+	for(i=0; i<Player_Num; i++)
+	{
+
+		boost(&Player[i], &board[Player->PlaceRow][Player->PlaceColumn]);
+	}
+
+
+	//do the rounds		->in userInteraction.c
+	//ask player if move/attack/quit	->different functions for each
+	//if move 		->small function for that
+	//if attack, which attack + who
+	//if quit player[i].? = NULL??
 
 	/*	Asks the user the row and the column of the slot
 		s/he wants to retrieve from the board.
