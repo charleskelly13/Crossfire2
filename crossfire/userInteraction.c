@@ -14,5 +14,4 @@
  */
 
 #include <stdio.h>
-#include "crossfireOperations.h"
 
