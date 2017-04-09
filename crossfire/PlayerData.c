@@ -8,9 +8,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "crossfireOperations.h"
 
-void PlayerData()
+int PlayerData()
 {
 	int PlayerNum, j;
 
@@ -46,7 +47,7 @@ void PlayerData()
 					Player[j].Luck,
 					Player[j].Smartness);
 		}
-		return;
+		return PlayerNum;
 }
 
 void type(struct Players *Player) //player type function
@@ -136,3 +137,17 @@ void stat(struct Players *Player)		//player stat function
 	return;
 }
 
+void assignPlace(const int Player_Num)
+{
+	srand(time(NULL));
+	int i, a, b;
+
+	for(i=0; i<Player_Num; i++)
+	{
+		a = rand()%BOARDSIZE;
+		b = rand()%BOARDSIZE;
+		Player[i].PlaceRow = a;
+		Player[i].PlaceColumn = b;
+		printf("P%d row=%d column=%d", i, Player[i].PlaceRow, Player[i].PlaceColumn);
+	}
+}
