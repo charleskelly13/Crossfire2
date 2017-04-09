@@ -38,7 +38,7 @@ struct slot{
 	struct slot *up;
 	// adjacent down slot
 	struct slot *down;
-}board;
+}board[BOARDSIZE][BOARDSIZE];
 
 struct Players	//struct for players
 {
@@ -66,7 +66,7 @@ struct Players	//struct for players
  * 	downLeft: pointer of pointer to slot at position (size -1, 0)
  * 	upLeft: pointer of pointer to slot at position (size - 1, size -1)
  */
-void createBoard(struct slot **upLeft, struct slot **upRight, struct slot **downLeft, struct slot **downRight, struct slot *board);
+void createBoard(struct slot **upLeft, struct slot **upRight, struct slot **downLeft, struct slot **downRight);
 
 
 void PlayerData();
@@ -80,5 +80,5 @@ void attack(struct Players *attacker, struct Players *attacked);			//attack func
 int move(struct Players *Player, int x, int playernumber, int slotnum);		//function to move players
 void assignPlace(struct Players *Player, int SlotNumber);	//place players on slots
 
-void BoardType(struct slot ***slots);
+void BoardType();
 

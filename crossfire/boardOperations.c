@@ -6,15 +6,16 @@
 #include "crossfireOperations.h"
 
 
-void createBoard(struct slot **upLeft, struct slot **upRight, struct slot **downLeft, struct slot **downRight, struct slot *board)
+void createBoard(struct slot **upLeft, struct slot **upRight, struct slot **downLeft, struct slot **downRight)
 {
 	int i, j;
 
-	struct slot ** board = malloc(BOARDSIZE * sizeof(struct slot *));
+//	struct slot ** board = malloc(BOARDSIZE * sizeof(struct slot *));
+//	*board = malloc(BOARDSIZE * sizeof(struct slot *));
 
 	for(i=0; i<BOARDSIZE; i++) //places number in row and column variable
 	{
-		board[i] = malloc(BOARDSIZE * sizeof(struct slot));
+//s		board[i] = malloc(BOARDSIZE * sizeof(struct slot));
 		for(j=0; j<BOARDSIZE; j++)
 		{
 			board[i][j].row = i;
@@ -97,7 +98,7 @@ void createBoard(struct slot **upLeft, struct slot **upRight, struct slot **down
 
 }
 
-void BoardType(struct slot ***board)
+void BoardType()
 {
 	int i, j=0;
 	for(i=0; i<BOARDSIZE; i++)
@@ -112,19 +113,19 @@ void BoardType(struct slot ***board)
 				if(random==1)			//if random is 1 then slot type is ground
 				{
 					printf("1 %d\n", random);
-					strcpy(&board[i][j]->type, "Ground");
+					strcpy(&board[i][j].type, "Ground");
 				}
 				else if(random==2)		//if it's 2 then slot type is city
 				{
 					printf("2 %d\n", random);
-					strcpy(&board[i][j]->type, "City");
+					strcpy(&board[i][j].type, "City");
 				}
 				else					//if it's 3 then slot type is hill
 				{
 					printf("3 %d\n", random);
-					strcpy(&board[i][j]->type, "Hill");
+					strcpy(&board[i][j].type, "Hill");
 				}
-//				printf("%d %d: %s\n", i, j, &board[i][j]->type);
+				printf("%d %d: %s\n", i, j, &board[i][j].type);
 			}
 		}
 
@@ -135,3 +136,5 @@ int assignSlots()
 	srand(time(NULL));
 	return (1+rand()%3);
 }
+
+

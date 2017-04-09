@@ -1,5 +1,6 @@
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "crossfireOperations.h"
 
 
@@ -8,23 +9,7 @@ int main()
 {
 
 	setvbuf(stdout, 0, _IONBF, 0);
-
 	PlayerData();
-for(int j=0; j<2; j++){
-	printf("\nPlayer [%d]: %s"
-						"Player Type: %s\n"
-						"Strength: %d\n"
-						"Magic: %d\n"
-						"Dexterity: %d\n"
-						"Luck: %d\n"
-						"Smartness: %d\n",
-						j+1, Player[j].Name,
-						Player[j].Race,
-						Player[j].Strength,
-						Player[j].MagicSkills,
-						Player[j].Dexterity,
-						Player[j].Luck,
-						Player[j].Smartness);}
 
 	//pointer to slot (0,0)
 	struct slot *upLeft;
@@ -41,15 +26,15 @@ for(int j=0; j<2; j++){
 
 	//Creates the board
 
-	createBoard(&upLeft, &upRight, &downLeft, &downRight, &board);
-//	BoardType(&slots);
+	createBoard(&upLeft, &upRight, &downLeft, &downRight);
+	BoardType();
 
 
 	for(int i=0; i<BOARDSIZE; i++)
 	{
 		for(int j=0; j<BOARDSIZE; j++)
 		{
-			printf("slots[%d][%d] is [%d][%d]\n", i, j, board.row, board.column);
+			printf("slots[%d][%d] is [%d][%d]\n", i, j, board[i][j].row, board[i][j].column);
 		}
 	}
 
