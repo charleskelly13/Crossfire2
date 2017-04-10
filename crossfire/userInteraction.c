@@ -9,14 +9,62 @@
 #include <stdio.h>
 #include "crossfireOperations.h"
 
-//This function returns the board size provided as input by the user
-int getBoardSize(){
-	int boardSize;
-	printf("Please enter the required size of the board\n");
-	//asks the user to enter the desired board size
-	scanf("%d", &boardSize);
-	return boardSize;
+int InputPlayers()
+{
+	int PlayerNum, j;
+
+	printf("Enter the number of players you want, between 2 and 6:"); //gives number of players
+	scanf("%d", &PlayerNum);
+	getchar();
+
+	while(PlayerNum<2 || PlayerNum>6)	//if the correct number isn't chosen
+		{
+			printf("\nEnter a number between 2 and 6: "); //gives number of players
+			scanf("%d", &PlayerNum);
+			getchar();		//so it reads in the new line char
+		}
+
+		for(j=0; j<PlayerNum; j++)	//player name/type/stat
+		{
+			printf("\n\nEnter player name: ");
+			fgets (Player[j].Name, 25, stdin);		//to read in second names
+			type(&Player[j]);		//assign type
+			stat(&Player[j]);		//assign stats
+			printf("\nPlayer [%d]: %s"
+					"Player Type: %s\n"
+					"Strength: %d\n"
+					"Magic: %d\n"
+					"Dexterity: %d\n"
+					"Luck: %d\n"
+					"Smartness: %d\n",
+					j+1, Player[j].Name,
+					Player[j].Race,
+					Player[j].Strength,
+					Player[j].MagicSkills,
+					Player[j].Dexterity,
+					Player[j].Luck,
+					Player[j].Smartness);
+		}
+		return PlayerNum;
 }
+
+
+
+
+
+
+
+//what do they want to do??
+
+
+
+
+
+
+
+
+
+
 
 //THis function takes as input the size of the board and the pointers
 // to the integers representing the row and the column of the slot that
@@ -55,31 +103,3 @@ void getDesiredElement(int boardSize, int * row, int * col){
 
 
 
-
-void disattack(struct Players *attacker, struct Players *attacked)		//distant attack function
-{
-	if(attacked->Dexterity>=attacker->Dexterity)
-	{
-	}
-	else if(attacker->Dexterity>attacked->Dexterity)	//If the dexterity points of the attacked player are greater than the attacked players dexterity
-	{								//the attacker life points = life points - 0.3 * (attacker player’s strength points).
-		attacked->LifePoints=attacked->LifePoints - (0.3*attacker->Strength);
-	}
-}
-
-void magicattack(struct Players *attacker, struct Players *attacked)		//magic attack function
-{
-	attacked->LifePoints=attacked->LifePoints - ((0.3*attacker->MagicSkills)+(0.2*attacker->Smartness));
-}
-
-void attack(struct Players *attacker, struct Players *attacked)		//attack function
-{
-	if(attacked->Strength>70)//If the Strength points of the attacked player are <=70,
-	{						//then attacked player life points = life points - 0.5 * his/her Strength points.
-		attacker->LifePoints=attacker->LifePoints - (0.3*attacked->Strength);
-	}
-	else if(attacked->Strength<=70)	//If the strength points of the attacked player are > 70,
-	{								//the attacker life points = life points - 0.3 * (attacked player’s strength points).
-		attacked->LifePoints=attacked->LifePoints - (0.5*attacked->Strength);
-	}
-}

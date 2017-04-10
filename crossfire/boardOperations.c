@@ -100,7 +100,10 @@ void createBoard(struct slot **upLeft, struct slot **upRight, struct slot **down
 
 void BoardType()
 {
-	int i, j=0;
+	int i, j;
+
+	printf("\n\nBoard is:\n");
+
 	for(i=0; i<BOARDSIZE; i++)
 		{
 			for(j=0; j<BOARDSIZE; j++)
@@ -112,28 +115,26 @@ void BoardType()
 
 				if(random==1)			//if random is 1 then slot type is ground
 				{
-					printf("1 %d\n", random);
 					strcpy(&board[i][j].type, "Ground");
 				}
 				else if(random==2)		//if it's 2 then slot type is city
 				{
-					printf("2 %d\n", random);
 					strcpy(&board[i][j].type, "City");
 				}
 				else					//if it's 3 then slot type is hill
 				{
-					printf("3 %d\n", random);
 					strcpy(&board[i][j].type, "Hill");
 				}
-//				printf("%d %d: %s\n", i, j, &board[i][j].type);
+				printf("(%d,%d): %s\t", i, j, &board[i][j].type);
 			}
+			printf("\n");
 		}
 
 }
 
 int assignSlots()
 {
-	srand(time(NULL));
+
 	return (1+rand()%3);
 }
 

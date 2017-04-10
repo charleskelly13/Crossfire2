@@ -11,44 +11,7 @@
 #include <time.h>
 #include "crossfireOperations.h"
 
-int PlayerData()
-{
-	int PlayerNum, j;
 
-	printf("Enter the number of players you want, between 2 and 6:"); //gives number of players
-	scanf("%d", &PlayerNum);
-	getchar();
-
-	while(PlayerNum<2 || PlayerNum>6)	//if the correct number isn't chosen
-		{
-			printf("\nEnter a number between 2 and 6: "); //gives number of players
-			scanf("%d", &PlayerNum);
-			getchar();		//so it reads in the new line char
-		}
-
-		for(j=0; j<PlayerNum; j++)	//player name/type/stat
-		{
-			printf("\n\nEnter player name: ");
-			fgets (Player[j].Name, 25, stdin);		//to read in second names
-			type(&Player[j]);		//assign type
-			stat(&Player[j]);		//assign stats
-			printf("\nPlayer [%d]: %s"
-					"Player Type: %s\n"
-					"Strength: %d\n"
-					"Magic: %d\n"
-					"Dexterity: %d\n"
-					"Luck: %d\n"
-					"Smartness: %d\n",
-					j+1, Player[j].Name,
-					Player[j].Race,
-					Player[j].Strength,
-					Player[j].MagicSkills,
-					Player[j].Dexterity,
-					Player[j].Luck,
-					Player[j].Smartness);
-		}
-		return PlayerNum;
-}
 
 void type(struct Players *Player) //player type function
 {
@@ -148,7 +111,14 @@ void assignPlace(const int Player_Num)
 		b = rand()%BOARDSIZE;
 		Player[i].PlaceRow = a;
 		Player[i].PlaceColumn = b;
-		printf("P%d row=%d column=%d\n", i, Player[i].PlaceRow, Player[i].PlaceColumn);
+		printf("\n%s"
+				"Is on row=%d, "
+				"column=%d ,"
+				"which is %s\n",
+				Player[i].Name,
+				Player[i].PlaceRow,
+				Player[i].PlaceColumn,
+				&board[Player[i].PlaceRow][Player[i].PlaceColumn].type);
 	}
 }
 
@@ -200,7 +170,7 @@ void boost(struct Players *Player, struct slot *board)
 
 void deboost(struct Players *Player, struct slot *board)	//when moving off a slot takes away given stats and returns them to what was given at start
 {
-	if(strcmp(board->type, "Hill")==0)
+	if(strcmp(&board->type, "Hill")==0)
 	{
 		if(Player->Dexterity >= 60)
 		{
@@ -211,7 +181,7 @@ void deboost(struct Players *Player, struct slot *board)	//when moving off a slo
 			Player->Strength = Player->Strength + 10;
 		}
 	}
-	if(strcmp(board->type, "City")==0)
+	if(strcmp(&board->type, "City")==0)
 	{
 		if(Player->Smartness > 60)
 		{
