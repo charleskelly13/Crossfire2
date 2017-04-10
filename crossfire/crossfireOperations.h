@@ -20,7 +20,10 @@
 typedef int bool;
 enum { false, true };
 
-
+enum dead {
+	alive,
+	dead
+	};
 
 struct slot{
 	//row number
@@ -68,9 +71,6 @@ struct Players	//struct for players
  * 	upLeft: pointer of pointer to slot at position (size - 1, size -1)
  */
 void createBoard(struct slot **upLeft, struct slot **upRight, struct slot **downLeft, struct slot **downRight);
-//Asks the user to insert the row and the column of the element
-//she wants to find given a board of size equal to maxsize
-void getDesiredElement(int maxsize, int * row, int * col);
 
 /*
  * This function traverses the board to find a slot at a predefined
@@ -97,18 +97,16 @@ void findSlots(int reqDist, int currDist,  struct slot * currSlot, struct slot *
 
 
 
-int PlayerData();
+int InputPlayers();
 void boost(struct Players *Player, struct slot *board);		//changing stats depending on slot type
 void deboost();	//removing stats when player moves off some slot types
 void type(struct Players *Player);		//give player a type
 void stat(struct Players *Player);		//give player stats
-void selectNumSlots(int *slot_noPtr, int PlayerNumber);		//select number of slots
 int assignSlots();				//put ground type on slots
-void attack(struct Players *attacker, struct Players *attacked);			//attack function
 int move(struct Players *Player, int x, int playernumber, int slotnum);		//function to move players
 void assignPlace(const int Player_Num);	//place players on slots
 
 void BoardType();
 void magicattack(struct Players *attacker, struct Players *attacked);
 void disattack(struct Players *attacker, struct Players *attacked);
-
+void nearattack(struct Players *attacker, struct Players *attacked);			//near attack function

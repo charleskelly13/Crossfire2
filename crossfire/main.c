@@ -1,15 +1,17 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "crossfireOperations.h"
 
 
 
 int main()
 {
+	srand(time(NULL));
 	int Player_Num, count=0, i;
 	setvbuf(stdout, 0, _IONBF, 0);
-	Player_Num = PlayerData();
+	Player_Num = InputPlayers();
 
 	int row, column;
 
@@ -38,24 +40,9 @@ int main()
 
 	for(i=0; i<Player_Num; i++)
 	{
-
 		boost(&Player[i], &board[Player->PlaceRow][Player->PlaceColumn]);
 	}
 
-
-	//do the rounds		->in userInteraction.c
-	//ask player if move/attack/quit	->different functions for each
-	//if move 		->small function for that
-	//if attack, which attack + who
-	//if quit player[i].? = NULL??
-
-	/*	Asks the user the row and the column of the slot
-		s/he wants to retrieve from the board.
-		Note that the user needs to know the size of the board to input
-		the correct row and column of the slot s/he wants to retrieve */
-		getDesiredElement(BOARDSIZE, &row,&column);
-
-		//Finds the slot
 
 
 		/*If the the required slot is closer to the down-right
