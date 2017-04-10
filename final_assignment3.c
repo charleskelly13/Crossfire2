@@ -24,7 +24,8 @@ struct Players
 
 enum dead {
 	alive, 
-	dead
+	dead,
+	quit
 	};
 
 void boost(struct Players *Player, struct Slots *slot);		//changing stats depending on slot type
@@ -121,20 +122,20 @@ int main(void)
 		}
 		counter=0;
 	}
-	while(death>1)
+	
+	
+	for(i=0; i<PlayerNum && death>1 ; i++) //move or attack
 	{
-	for(i=0; i<PlayerNum ; i++) //move or attack
-	{
-		if(status[i]!=dead)
+		if(status[i]!=dead && status[i]!=quit)
 		{
 		
 		
 		//player[i] choice - move or attack
-		printf("\n%sDo you want to move or attack?\nEnter 1 to move or 2 to attack\n", Player[i].Name);
+		printf("\n%sDo you want to move or attack?\nEnter 1 to move or 2 to attack or 3 to quit the game\n", Player[i].Name);
 		scanf("%d", &choice);
 		getchar();
 		
-		while(choice!=1 && choice!=2)		//checks if choice is valid
+		while(choice!=1 && choice!=2 && choice!=3)		//checks if choice is valid
 		{
 			printf("\n%d\n", choice);
 			printf("This is not an option!!\nEnter 1 to move or 2 to attack");
@@ -227,7 +228,7 @@ int main(void)
 				}
 			}
 			
-		}
+			}
 		if(atk==3)
 			{
 				int p=0;
@@ -255,13 +256,21 @@ int main(void)
 			}
 		}
 		}
-	
+		if(choice==3)
+		{
+			status[i]=quit;
+			death=death-1;
+		}
 		//print stats after each player
 		for(j=0; j<PlayerNum; j++)
 		{
 			if(status[j]==dead)
 			{
 				printf("\n Player %d is dead\n", j+1);
+			}
+			else  if(status[j]==quit)
+			{
+				printf("\n Player %d has quit\n", j+1);
 			}
 			else
 			{
@@ -275,7 +284,7 @@ int main(void)
 		{
 			for(k=0; k<PlayerNum; k++)
 			{
-				if(slot[j].place==Player[k].Place)
+				if(slot[j].place==Player[k].Place && status[k]!=quit && status[k]!=dead)
 				{
 					printf("P%d   ", k+1);
 				}
@@ -291,7 +300,7 @@ int main(void)
 			counter=0;
 		}
 	}
-	}
+	
 	return 0;
 }
 
