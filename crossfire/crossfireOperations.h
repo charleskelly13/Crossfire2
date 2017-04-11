@@ -22,7 +22,8 @@ enum { false, true };
 
 enum dead {
 	alive,
-	dead
+	dead,
+	quit
 	};
 
 struct slot{

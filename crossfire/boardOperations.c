@@ -10,12 +10,9 @@ void createBoard(struct slot **upLeft, struct slot **upRight, struct slot **down
 {
 	int i, j;
 
-//	struct slot ** board = malloc(BOARDSIZE * sizeof(struct slot *));
-//	*board = malloc(BOARDSIZE * sizeof(struct slot *));
 
 	for(i=0; i<BOARDSIZE; i++) //places number in row and column variable
 	{
-//		board[i] = malloc(BOARDSIZE * sizeof(struct slot));
 		for(j=0; j<BOARDSIZE; j++)
 		{
 			board[i][j].row = i;
