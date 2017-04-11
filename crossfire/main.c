@@ -78,9 +78,9 @@ int main()
 			//if move -> move function
 			if(choice==1)
 			{
-				deboost();		//removes change of stats before moving
+				/*deboost();		//removes change of stats before moving
 				choice = move();	//moves player
-				boost();		//changes stats according to type of slot
+				boost();		//changes stats according to type of slot*/
 			}
 
 			//if attack -> attack function
@@ -110,54 +110,48 @@ int main()
 				max=100, second=99, k=0;
 				if(atk==1)
 				{
-				while(k<Player_Num)		//checks for the closest player
-				{
-					if(status[k]!=dead)
+					int abl[6];
+					int u, e;
+					while(k<Player_Num)
 					{
-					dif=Player[i].Place-Player[k].Place;
-					if(dif<0)
+						if(k!=i)
+						{
+						if(Player[k].PlaceRow==Player[i].PlaceRow&&(Player[k].PlaceColumn==Player[i].PlaceColumn||Player[k].PlaceColumn==Player[i].PlaceColumn+1||Player[k].PlaceColumn==Player[i].PlaceColumn-1))
+						{
+							abl[k]=1;
+							u=u+1;
+						}
+						else if(Player[k].PlaceColumn==Player[i].PlaceColumn&&(Player[k].PlaceRow==Player[i].PlaceRow||Player[k].PlaceRow==Player[i].PlaceRow+1||Player[k].PlaceRow==Player[i].PlaceRow-1))
+						{
+							abl[k]=1;
+							u=u+1;
+						}
+						}
+					}
+					k=0;
+					if(u>0)
 					{
-						dif=-(dif);
+					printf("You can attack player");
 					}
-
-					if(dif<max && dif>0)
+					else
 					{
-						v=k;
-						max=dif;
+						printf("There are no players for you to attack");
 					}
-					else if(dif==max)
+					while(k<Player_Num)
 					{
-						second=max;
-						r=k;
+						if(abl[k]>0)
+						{
+							printf("%d", k+1);
+						}
 					}
-					}
-					k=k+1;
-				}
-
-				if(max!=second)		//calls attack function if there is one closest player
-				{
-					nearattack(&Player[i], &Player[v]);
-				}
-				if(max==second)		//if there is two players near by this gives the option of which to choose
-				{
-					printf("\nEnter:\n1 to attack %s2 to attack %s", Player[r].Name, Player[v].Name);
-					scanf("%d", &l);
-					getchar();
-
-					while(l!=1 && l!=2)	//check if user entered a given option
+					printf("Choose which player to attack");
+					scanf("%d", &e);
+					while(abl[e]<1)
 					{
-						printf("Please enter a valid number: \n");
-						scanf("%d", &l);
-						getchar();
+						printf("Choose which player to attack");
+						scanf("%d", &e);
 					}
-					if(l==1)
-					{
-						attack(&Player[i], &Player[r]);
-					}
-					if(l==2)
-					{
-						attack(&Player[i], &Player[v]);
-					}
+					nearattack(&Player[i], &Player[e-1]);
 				}
 
 				}
@@ -212,7 +206,7 @@ int main()
 			printf("\n");
 
 
-/*			for(j=0; j<slot_no; j++)
+			/*			for(j=0; j<slot_no; j++)
 			{
 				for(k=0; k<PlayerNum; k++)
 				{
@@ -232,7 +226,7 @@ int main()
 				counter=0;
 			}*/
 		}
-
+	}
 
 
 
