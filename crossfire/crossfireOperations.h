@@ -103,7 +103,7 @@ void deboost();	//removing stats when player moves off some slot types
 void type(struct Players *Player);		//give player a type
 void stat(struct Players *Player);		//give player stats
 int assignSlots();				//put ground type on slots
-int move(struct Players *Player, int x, int playernumber, int slotnum);		//function to move players
+int move(struct Players *Player, int x, int playernumber, int column, int row, struct Slots *slot);		//function to move players
 void assignPlace(const int Player_Num);	//place players on slots
 
 void BoardType();
