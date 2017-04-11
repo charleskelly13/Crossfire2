@@ -11,22 +11,22 @@
 #include <time.h>
 #include "crossfireOperations.h"
 
-int move(struct Players *Player, int x, int playernumber, int column, int row, struct Slots *slot)	//function to move players
+int move(struct Players *Player, int x, int playernumber, struct Slots *slot)	//function to move players
 {
 	int a=0, b=0, c=0, d=0, e=0;
-	if(slot[row][column+1]!=NULL)
+	if(slot[Player->PlaceRow][column+1]!=NULL)
 	{
 		a=1;
 	}
-	if(slot[row][column-1]!=NULL)
+	if(slot[Player->PlaceRow][column-1]!=NULL)
 	{
 		b=1;
 	}
-	if(slot[row+1][column]!=NULL)
+	if(slot[Player->PlaceRow+1][column]!=NULL)
 	{
 		c=1;
 	}
-	if(slot[row-1][column]!=NULL)
+	if(slot[Player->PlaceRow-1][column]!=NULL)
 	{
 		d=1;
 	}
@@ -35,6 +35,10 @@ int move(struct Players *Player, int x, int playernumber, int column, int row, s
 	{
 		printf("You can move right. Enter 1 to move right: ");
 		scanf("%d", &e);
+		if(e==1)
+		{
+			column=column+1;
+		}
 	}
 	else if(a==0 && b==1 && c==0 && d==0)
 	{
@@ -45,16 +49,32 @@ int move(struct Players *Player, int x, int playernumber, int column, int row, s
 	{
 		printf("You can move up. Enter 1 to move up: ");
 		scanf("%d", &e);
+		if(e==1)
+		{
+			Player->PlaceRow=Player->PlaceRow+1;
+		}
 	}
 	else if(a==0 && b==0 && c==0 && d==1)
 	{
 		printf("You can move down. Enter 1 to move down:");
 		scanf("%d", &e);
+		if(e==1)
+		{
+			Player->PlaceRow=Player->PlaceRow+1;
+		}
 	}
 	else if(a==1 && b==1 && c==0 && d==0)
 	{
 		printf("You can move right and left. Enter 1 to move right or 2 to move left: ");
 		scanf("%d", &e);
+		if(e==1)
+		{
+			
+		}
+		if(e==2)
+		{
+			
+		}
 	}
 	else if(a==1 && b==0 && c==1 && d==0)
 	{
