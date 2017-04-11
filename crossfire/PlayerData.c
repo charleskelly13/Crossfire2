@@ -1,136 +1,10 @@
-
-/* * Players.c
- *
- *  Created on: 31 Mar 2017
- *      Author: Órla
- */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 #include "crossfireOperations.h"
 
-int move(struct Players *Player, int x, int playernumber, struct Slots *slot)	//function to move players
-{
-	int a=0, b=0, c=0, d=0, e=0;
-	if(slot[Player->PlaceRow][column+1]!=NULL)
-	{
-		a=1;
-	}
-	if(slot[Player->PlaceRow][column-1]!=NULL)
-	{
-		b=1;
-	}
-	if(slot[Player->PlaceRow+1][column]!=NULL)
-	{
-		c=1;
-	}
-	if(slot[Player->PlaceRow-1][column]!=NULL)
-	{
-		d=1;
-	}
-	
-	if(a==1 && b==0 && c==0 && d==0)
-	{
-		printf("You can move right. Enter 1 to move right: ");
-		scanf("%d", &e);
-		if(e==1)
-		{
-			column=column+1;
-		}
-	}
-	else if(a==0 && b==1 && c==0 && d==0)
-	{
-		printf("You can move left. Enter 1 to move left: ");
-		scanf("%d", &e);
-	}
-	else if(a==0 && b==0 && c==1 && d==0)
-	{
-		printf("You can move up. Enter 1 to move up: ");
-		scanf("%d", &e);
-		if(e==1)
-		{
-			Player->PlaceRow=Player->PlaceRow+1;
-		}
-	}
-	else if(a==0 && b==0 && c==0 && d==1)
-	{
-		printf("You can move down. Enter 1 to move down:");
-		scanf("%d", &e);
-		if(e==1)
-		{
-			Player->PlaceRow=Player->PlaceRow+1;
-		}
-	}
-	else if(a==1 && b==1 && c==0 && d==0)
-	{
-		printf("You can move right and left. Enter 1 to move right or 2 to move left: ");
-		scanf("%d", &e);
-		if(e==1)
-		{
-			
-		}
-		if(e==2)
-		{
-			
-		}
-	}
-	else if(a==1 && b==0 && c==1 && d==0)
-	{
-		printf("You can move right and up. Enter 1 to move right or 2 to move up: ");
-		scanf("%d", &e);
-	}
-	else if(a==1 && b==0 && c==0 && d==1)
-	{
-		printf("You can move down and right. Enter 1 to move down or 2 to right up: ");
-		scanf("%d", &e);
-	}
-	else if(a==1 && b==1 && c==1 && d==0)
-	{
-		printf("You can move right, left and up. Enter 1 to move right, 2 to move left or 3 to move left: ");
-		scanf("%d", &e);
-	}
-	else if(a==0 && b==1 && c==1 && d==0)
-	{
-		printf("You can move left and up. Enter 1 to move left or 2 to move up: ");
-		scanf("%d", &e);
-	}
-	else if(a==0 && b==1 && c==1 && d==1)
-	{
-		printf("You can move left , up and down. Enter 1 to move left, 2 to move up or 3 to move down: ");
-		scanf("%d", &e);
-	}
-	else if(a==1 && b==1 && c==1 && d==1)
-	{
-		printf("You can move down, up, left and right. Enter 1 to move down, 2 to move up or 3 to move right: ");
-		scanf("%d", &e);
-	}
-	else if(a==0 && b==0 && c==0 && d==0)
-	{
-		printf("You can move nowhere");
-	}
-	else if(a==1 && b==0 && c==1 && d==1)
-	{
-		printf("You can move down, up and right. Enter 1 to move down, 2 to move up or to move right: ");
-		scanf("%d", &e);
-	}
-	else if(a==1 && b==1 && c==0 && d==1)
-	{
-		printf("You can move down, right and left. Enter 1 to move down, 2 to move right or 3 to move left: ");
-		scanf("%d", &e);
-	}
-	else if(a==0 && b==1 && c==0 && d==1)
-	{
-		printf("You can move down and left. Enter 1 to move down, 2 to move left: ");
-		scanf("%d", &e);
-	}
-	else if(a==1 && b==1 && c==1 && d==1)
-	{
-		printf("You can move up, down, left and right. Enter 1 to move up, 2 to move down, 3 to move left or 4 to move right: ");
-		scanf("%d", &e);
-	}
-}
+
 
 void type(struct Players *Player) //player type function
 {
@@ -332,3 +206,8 @@ void deboost(struct Players *Player, struct slot *board)	//when moving off a slo
 		Player->Strength = 0;
 	}
 }
+
+    Contact GitHub API Training Shop Blog About 
+
+    © 2017 GitHub, Inc. Terms Privacy Security Status Help 
+

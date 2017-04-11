@@ -22,7 +22,8 @@ enum { false, true };
 
 enum dead {
 	alive,
-	dead
+	dead,
+	quit
 	};
 
 struct slot{
@@ -102,8 +103,12 @@ void boost(struct Players *Player, struct slot *board);		//changing stats depend
 void deboost();	//removing stats when player moves off some slot types
 void type(struct Players *Player);		//give player a type
 void stat(struct Players *Player);		//give player stats
+<<<<<<< HEAD
 int assignSlots();				//put ground type on slots
 int move(struct Players *Player, int x, int playernumber, int *column, int *row, struct Slots *slot);		//function to move players
+=======
+int move(struct Players *Player, int x, int playernumber, int column, int row);		//function to move players
+>>>>>>> fb8bc727d1b34dc5518f6e7a70a98bd4d6098472
 void assignPlace(const int Player_Num);	//place players on slots
 
 void BoardType();

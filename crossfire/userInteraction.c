@@ -48,13 +48,114 @@ int InputPlayers()
 		return PlayerNum;
 }
 
+int move(struct Players *Player, int x, int playernumber, int column, int row)	//function to move players
+ {
+ 	int right=0, left=0, down=0, up=0, e=0;
+ 	if(board[row][column+1].right!=NULL)
+ 	{
+ 		right=1;
+ 	}
+ 	if(board[row][column-1].left!=NULL)
+ 	{
+ 		left=1;
+ 	}
+ 	if(board[row+1][column].down!=NULL)
+ 	{
+ 		down=1;
+ 	}
+ 	if(board[row-1][column].up!=NULL)
+ 	{
+ 		up=1;
+ 	}
+
+ 	if(right==1 && left==0 && down==0 && up==0)
+ 	{
+ 		printf("You can move right. Enter 1 to move right: ");
+ 		scanf("%d", &e);
+ 	}
+ 	else if(right==0 && left==1 && down==0 && up==0)
+ 	{
+ 		printf("You can move left. Enter 1 to move left: ");
+ 		scanf("%d", &e);
+ 	}
+ 	else if(right==0 && left==0 && down==1 && up==0)
+ 	{
+ 		printf("You can move up. Enter 1 to move up: ");
+ 		scanf("%d", &e);
+ 	}
+ 	else if(right==0 && left==0 && down==0 && up==1)
+ 	{
+ 		printf("You can move down. Enter 1 to move down:");
+ 		scanf("%d", &e);
+ 	}
+ 	else if(right==1 && left==1 && down==0 && up==0)
+ 	{
+ 		printf("You can move right and left. Enter 1 to move right or 2 to move left: ");
+ 		scanf("%d", &e);
+ 	}
+ 	else if(right==1 && left==0 && down==1 && up==0)
+ 	{
+ 		printf("You can move right and up. Enter 1 to move right or 2 to move up: ");
+ 		scanf("%d", &e);
+ 	}
+ 	else if(right==1 && left==0 && down==0 && up==1)
+ 	{
+ 		printf("You can move down and right. Enter 1 to move down or 2 to right up: ");
+ 		scanf("%d", &e);
+ 	}
+ 	else if(right==1 && left==1 && down==1 && up==0)
+ 	{
+ 		printf("You can move right, left and up. Enter 1 to move right, 2 to move left or 3 to move left: ");
+ 		scanf("%d", &e);
+ 	}
+ 	else if(right==0 && left==1 && down==1 && up==0)
+ 	{
+		printf("You can move left and up. Enter 1 to move left or 2 to move up: ");
+		scanf("%d", &e);
+ 	}
+ 	else if(right==0 && left==1 && down==1 && up==1)
+ 	{
+ 		printf("You can move left , up and down. Enter 1 to move left, 2 to move up or 3 to move down: ");
+ 		scanf("%d", &e);
+ 	}
+ 	else if(right==1 && left==1 && down==1 && up==1)
+ 	{
+ 		printf("You can move down, up, left and right. Enter 1 to move down, 2 to move up or 3 to move right: ");
+ 		scanf("%d", &e);
+ 	}
+ 	else if(right==0 && left==0 && down==0 && up==0)
+ 	{
+ 		printf("You can move nowhere");
+ 	}
+ 	else if(right==1 && left==0 && down==1 && up==1)
+ 	{
+ 		printf("You can move down, up and right. Enter 1 to move down, 2 to move up or to move right: ");
+ 		scanf("%d", &e);
+ 	}
+ 	else if(right==1 && left==1 && down==0 && up==1)
+ 	{
+ 		printf("You can move down, right and left. Enter 1 to move down, 2 to move right or 3 to move left: ");
+ 		scanf("%d", &e);
+ 	}
+ 	else if(right==0 && left==1 && down==0 && up==1)
+ 	{
+ 		printf("You can move down and left. Enter 1 to move down, 2 to move left: ");
+ 		scanf("%d", &e);
+ 	}
+ 	else if(right==1 && left==1 && down==1 && up==1)
+ 	{
+ 		printf("You can move up, down, left and right. Enter 1 to move up, 2 to move down, 3 to move left or 4 to move right: ");
+ 		scanf("%d", &e);
+ 	}
+
+ 	return e;
+ }
 
 
 
 
 
 
-//what do they want to do??
 
 
 
