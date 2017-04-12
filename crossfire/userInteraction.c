@@ -52,36 +52,36 @@ int InputPlayers()
 void move(struct Players *Player)	//function to move players
  {
  	int right=0, left=0, down=0, up=0, e;
- 	if(board[Player->PlaceRow][Player->PlaceColumn+1].right!=NULL)
+ 	if(board[Player->PlaceRow][Player->PlaceColumn].column==BOARDSIZE-1)
  	{
  		right=1;
  	}
- 	if(board[Player->PlaceRow][Player->PlaceColumn-1].left!=NULL)
+ 	if(board[Player->PlaceRow][Player->PlaceColumn].column==0)
  	{
  		left=1;
  	}
- 	if(board[Player->PlaceRow+1][Player->PlaceColumn].down!=NULL)
+ 	if(board[Player->PlaceRow][Player->PlaceColumn].row==BOARDSIZE-1)
  	{
  		down=1;
  	}
- 	if(board[Player->PlaceRow-1][Player->PlaceColumn].up!=NULL)
+ 	if(board[Player->PlaceRow][Player->PlaceColumn].up==0)
  	{
  		up=1;
  	}
 
- 	if(right==1 && left==0 && down==0 && up==0)
+ 	if(right==1)
  	{
  		printf("You can't move right.\n");
  	}
- 	if(right==0 && left==1 && down==0 && up==0)
+ 	if(left==1)
  	{
  		printf("You can't move left.\n");
  	}
- 	if(right==0 && left==0 && down==1 && up==0)
+ 	if(down==1)
  	{
  		printf("You can't move down.\n");
  	}
- 	if(right==0 && left==0 && down==0 && up==1)
+ 	if(up==1)
  	{
  		printf("You can't move up.\n");
  	}
@@ -103,28 +103,33 @@ void move(struct Players *Player)	//function to move players
  		printf("Enter 8 to move up\n");
  	}
 
- 	do
+ 	scanf("%d", &e);
+ 	getchar();
+ 	while(e!=2 && e!=4 && e!=6 && e!=8)
  	{
+ 		printf("Enter a valid number");
  		scanf("%d", &e);
- 	}while (e!=2 || e!=4 || e!=6 || e!=8);
+ 		getchar();
+ 	}
 
- 	if(e==4)
+ 	if(e==4 && Player->PlaceColumn!=0)
  	{
  		Player->PlaceColumn = Player->PlaceColumn - 1;
  	}
- 	if(e==6)
+ 	if(e==6 && Player->PlaceColumn!=(BOARDSIZE-1))
  	{
  		Player->PlaceColumn = Player->PlaceColumn + 1;
  	}
- 	if(e==2)
+ 	if(e==2 && Player->PlaceRow != (BOARDSIZE-1))
  	{
  		Player->PlaceRow = Player->PlaceRow + 1;
  	}
- 	if(e==8)
+ 	if(e==8 && Player->PlaceRow != 0)
  	{
  		Player->PlaceRow = Player->PlaceRow - 1;
  	}
 
+ 	printf("\nPlayer place is now (%d,%d)", Player->PlaceRow, Player->PlaceColumn);
  }
 
 
@@ -158,7 +163,7 @@ void turns(const int Player_Num)
 				else
 				{
 					printf("\n\nPlayer [%d]: %s"
-							"Life Points %d"
+							"Life Points %d\n"
 							"Player Type: %s\n"
 							"Strength: %d\n"
 							"Magic: %d\n"
@@ -400,7 +405,7 @@ int u=0, l=0;
 		else
 		{
 			printf("\n\nPlayer [%d]: %s"
-					"Life Points %d"
+					"Life Points %d\n"
 					"Player Type: %s\n"
 					"Strength: %d\n"
 					"Magic: %d\n"
