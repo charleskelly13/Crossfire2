@@ -133,6 +133,14 @@ void turns(const int Player_Num)
 	int turn, choice, attack_choice, abl[Player_Num];
 	int k, j, i, count, distance, attack_player;
 	enum dead status[6];
+	while(i<6)
+	{
+		status[i]=alive;
+		i=i+1;
+	}
+	status[2]=dead;
+	status[2]=alive;
+	i=0;
 	int death = Player_Num;
 	struct slot* currSlot = NULL;
 	struct slot *foundSlots;
@@ -146,9 +154,6 @@ void turns(const int Player_Num)
 		if(status[turn]!=dead && status[turn]!=quit)
 		{
 			//print stats after each player
-<<<<<<< HEAD
-			
-=======
 			for(j=0; j<Player_Num; j++)
 			{
 				if(status[j]==dead)
@@ -179,7 +184,6 @@ void turns(const int Player_Num)
 							Player[j].Smartness);
 				}
 			}
->>>>>>> ff6aa76fac31a1d74e475927a7b6569eed77a09d
 			printf("\n");
 
 			//player[turn] choice - move or attack
@@ -355,7 +359,7 @@ void turns(const int Player_Num)
 						}
 					}
 					scanf("%d", &attack_player);
-					while(attack_player-1==turn || attack_player-1>Player_Num || attack_player<0 || status[attack_player-1]==dead )
+					while(attack_player-1==turn || attack_player-1>Player_Num || attack_player<0 || status[attack_player-1]==dead  )
 					{
 						printf("Choose a player to attack:");
 						scanf("%d", &attack_player);
@@ -397,11 +401,7 @@ void turns(const int Player_Num)
 		}
 		else
 		{
-<<<<<<< HEAD
-			printf("\n\nPlayer [%d]: %s\n"
-=======
 			printf("\n\nPlayer [%d]: %s"
->>>>>>> ff6aa76fac31a1d74e475927a7b6569eed77a09d
 					"Life Points %d\n"
 					"Player Type: %s\n"
 					"Strength: %d\n"
@@ -432,7 +432,7 @@ void turns(const int Player_Num)
 				}
 				else
 				{
-					printf("_\t");
+					printf("*\t");
 				}
 			}
 		}
