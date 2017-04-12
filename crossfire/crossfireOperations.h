@@ -8,7 +8,8 @@
 #ifndef CROSSFIREOPERATIONS_H_
 #define CROSSFIREOPERATIONS_H_
 #define BOARDSIZE 7
-#define REQ_DISTANCE 3
+#define MIN_DISTANCE 2		//min distance?
+#define MAX_DISTANCE 4		//max distance?
 
 #endif /* CROSSFIREOPERATIONS_H_ */
 
@@ -100,16 +101,14 @@ void findSlots(int reqDist, int currDist,  struct slot * currSlot, struct slot *
 
 int InputPlayers();
 void boost(struct Players *Player, struct slot *board);		//changing stats depending on slot type
-void deboost();	//removing stats when player moves off some slot types
+void deboost(struct Players *Player, struct slot *board);	//removing stats when player moves off some slot types
 void type(struct Players *Player);		//give player a type
 void stat(struct Players *Player);		//give player stats
-int assignSlots();				//put ground type on slots
-int move(struct Players *Player, int x, int playernumber, int column, int row);		//function to move players
-	//function to move players
-
+void move(struct Players *Player);		//function to move players
 void assignPlace(const int Player_Num);	//place players on slots
 
 void BoardType();
 void magicattack(struct Players *attacker, struct Players *attacked);
 void disattack(struct Players *attacker, struct Players *attacked);
 void nearattack(struct Players *attacker, struct Players *attacked);			//near attack function
+void turns(const int Player_Num);
