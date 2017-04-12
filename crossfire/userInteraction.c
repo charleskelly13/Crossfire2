@@ -182,6 +182,7 @@ void turns(const int Player_Num)
 							Player[j].Dexterity,
 							Player[j].Luck,
 							Player[j].Smartness);
+							printf("\nPlayer place is now (%d,%d)", Player[j].PlaceRow, Player[j].PlaceColumn);
 				}
 			}
 			printf("\n");
@@ -255,7 +256,7 @@ void turns(const int Player_Num)
 						abl[k]=0;
 						k=k+1;
 					}
-
+					k=0;
 					while(k<Player_Num)		//checks for the closest player
 					{
 						if(k!=turn)
@@ -263,13 +264,13 @@ void turns(const int Player_Num)
 							if(Player[k].PlaceRow==Player[turn].PlaceRow && (Player[k].PlaceColumn==Player[turn].PlaceColumn || Player[k].PlaceColumn==Player[turn].PlaceColumn +1 || Player[k].PlaceColumn==Player[turn].PlaceColumn-1))
 							{
 								abl[k]=1;
-								u=u+1;
+								u=1;
 								
 							}
 							else if(Player[k].PlaceColumn==Player[turn].PlaceColumn && (Player[k].PlaceRow==Player[turn].PlaceRow || Player[k].PlaceRow==Player[turn].PlaceRow+1 || Player[k].PlaceRow==Player[turn].PlaceRow-1))
 							{
 								abl[k]=1;
-								u=u+1;
+								u=1;
 							}
 						}
 						k=k+1;
@@ -280,7 +281,7 @@ void turns(const int Player_Num)
 						printf("Your options are ");
 						while(k<Player_Num)
 					{
-						if(abl[k]=1)
+						if(abl[k]=1 && k!=turn)
 						{
 							printf("P%d ", k+1);
 						}
@@ -288,6 +289,11 @@ void turns(const int Player_Num)
 					}
 					printf("Choose which player to attack P?");
 					scanf("%d", &attack_player);
+					while(k==turn)
+					{
+						printf("Choose which player to attack P?");
+						scanf("%d", &attack_player);
+					}
 					while(abl[attack_player]<1)
 					{
 						printf("Choose which player to attack");
@@ -298,6 +304,7 @@ void turns(const int Player_Num)
 					else
 					{
 						printf("There are no players for you to attack\n");
+						printf(" %d ", u);
 					}
 					
 				}
