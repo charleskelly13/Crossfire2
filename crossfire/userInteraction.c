@@ -146,7 +146,40 @@ void turns(const int Player_Num)
 		if(status[turn]!=dead && status[turn]!=quit)
 		{
 			//print stats after each player
+<<<<<<< HEAD
 			
+=======
+			for(j=0; j<Player_Num; j++)
+			{
+				if(status[j]==dead)
+				{
+					printf("\nPlayer %d is dead\n", j+1);
+				}
+				else  if(status[j]==quit)
+				{
+					printf("\nPlayer %d has quit\n", j+1);
+				}
+				else
+				{
+					printf("\n\nPlayer [%d]: %s"
+							"Life Points %d\n"
+							"Player Type: %s\n"
+							"Strength: %d\n"
+							"Magic: %d\n"
+							"Dexterity: %d\n"
+							"Luck: %d\n"
+							"Smartness: %d\n",
+							j+1, Player[j].Name,
+							Player[j].LifePoints,
+							Player[j].Race,
+							Player[j].Strength,
+							Player[j].MagicSkills,
+							Player[j].Dexterity,
+							Player[j].Luck,
+							Player[j].Smartness);
+				}
+			}
+>>>>>>> ff6aa76fac31a1d74e475927a7b6569eed77a09d
 			printf("\n");
 
 			//player[turn] choice - move or attack
@@ -364,7 +397,11 @@ void turns(const int Player_Num)
 		}
 		else
 		{
+<<<<<<< HEAD
 			printf("\n\nPlayer [%d]: %s\n"
+=======
+			printf("\n\nPlayer [%d]: %s"
+>>>>>>> ff6aa76fac31a1d74e475927a7b6569eed77a09d
 					"Life Points %d\n"
 					"Player Type: %s\n"
 					"Strength: %d\n"
