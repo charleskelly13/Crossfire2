@@ -47,7 +47,7 @@ int main(void)
 	int PlayerNum, j, slot_no, i, choice, max, v=0, second, r=0, k, l, dif, counter=0, atk;
 	struct Players Player[6];
 	struct Slots slot[20];
-	enum dead status[i];
+	
 	//pick between 2 and 6
 	printf("Enter the number of players you want, between 2 and 6:"); //gives number of players
 	scanf("%d", &PlayerNum);
@@ -60,6 +60,7 @@ int main(void)
 		getchar();		//so it reads in the new line char
 	}
 	int death = PlayerNum;
+	enum dead status[PlayerNum];
 	for(j=0; j<PlayerNum; j++)	//player name/type/stat
 	{
 		printf("\n\nEnter player name: ");
