@@ -37,7 +37,7 @@ int main()
 		boost(&Player[i], &board[Player->PlaceRow][Player->PlaceColumn]);
 	}
 
-	turns(Player_Num);
+	turns(Player_Num, upLeft, upRight, downLeft, downRight);
 
 	return 0;
 }

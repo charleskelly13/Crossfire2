@@ -95,7 +95,7 @@ struct slot *  reachDesiredElement(int row, int column, struct slot * initialSlo
  * 	count: pointer to an integer representing the number of slots that are found to be at a required distance from the starting slot
  * 	explored: matrix indicating for each slot at row x and column y has been traversed (true) or not (false)
  */
-void findSlots(int reqDist, int currDist,  struct slot * currSlot, struct slot * foundSlots, int * count,  bool explored[7][7]);
+void findSlots(int reqDist, int currDist,  struct slot * currSlot, struct slot * foundSlots, int * count,  bool explored[BOARDSIZE][BOARDSIZE]);
 
 
 
@@ -111,4 +111,4 @@ void BoardType();
 void magicattack(struct Players *attacker, struct Players *attacked);
 void disattack(struct Players *attacker, struct Players *attacked);
 void nearattack(struct Players *attacker, struct Players *attacked);			//near attack function
-void turns(const int Player_Num);
+void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, struct slot *downLeft, struct slot *downRight);
