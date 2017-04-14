@@ -270,6 +270,7 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 					if(attackchoice==1)
 					{
 						k=0;
+						u=0;
 						while(k<Player_Num)		//Sets array of players that are able to be attacked to zero
 						{
 							abl[k]=0;
@@ -299,7 +300,7 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 							printf("Your options are ");
 							while(k<Player_Num)
 							{
-								if(abl[k]==1 && k!=turn && status[k]== dead && status[k]==quit)
+								if(abl[k]==1 && k!=turn && status[k]!= dead && status[k]!=quit)
 								{
 									printf("P%d ", k+1);// Prints players you are able to attack
 								}
@@ -307,7 +308,7 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 							}
 							printf("Choose which player to attack P?");
 							scanf("%d", &attack_player);
-							while(k==turn || abl[attack_player]<1 || status[k]== dead || status[k]==quit)// If the player you input is yourself or a player you can't attack it will continue to ask for a player to attack
+							while(k==turn || abl[attack_player]<1 || status[attack_player-1]== dead || status[attack_player-1]==quit)// If the player you input is yourself or a player you can't attack it will continue to ask for a player to attack
 							{
 								printf("Choose which player to attack P?");
 								scanf("%d", &attack_player);
@@ -394,7 +395,7 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 							}
 						}
 						scanf("%d", &attack_player);
-						while(attack_player-1==turn || attack_player-1>Player_Num || attack_player=<0 || status[attack_player-1]==dead || status[attack_player-1]==quit)// If the input is the players whos turn it is, greater than the amount of players in game,the inputted player is dead or quit or the input is less than 1 the user will be asked to input again 
+						while(attack_player-1==turn || attack_player-1 >Player_Num || attack_player <= 0 || status[attack_player-1]==dead || status[attack_player-1]==quit)// If the input is the players whos turn it is, greater than the amount of players in game,the inputted player is dead or quit or the input is less than 1 the user will be asked to input again 
 						{
 							printf("Choose a player to attack:");
 							scanf("%d", &attack_player);
