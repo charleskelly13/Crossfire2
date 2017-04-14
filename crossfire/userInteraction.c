@@ -374,7 +374,7 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 						{
 							printf("Select one of these players to attack Player ?\n");
 							scanf("%d", &attack_player);
-						}while(abl[attack_player-1]==0);
+						}while(abl[attack_player-1]==0 || status[attack_player-1]== dead ||status[attack_player-1]== quit);
 
 						disattack(&Player[turn], &Player[attack_player]);
 						for(i=0; i<Player_Num; i++)
@@ -382,7 +382,7 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 							abl[k]=0;
 						}
 						attack_player=7;
-					}
+}
 
 					if(attackchoice==3)		//magic attack
 					{
