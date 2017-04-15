@@ -1,5 +1,4 @@
 
-
 /* * Players.c
  *
  *  Created on: 31 Mar 2017
@@ -123,94 +122,101 @@ void assignPlace(const int Player_Num)
 	}
 }
 
-void boost(struct Players *Player, struct slot *board)
+void boost(int i)
 {
-	if(strcmp(&board->type, "Hill")==0)
+	int row = Player[i].PlaceRow;
+	int column = Player[i].PlaceColumn;
+
+	if(!strcmp(&board[row][column].type, "Hill"))
 		{
-			if(Player->Dexterity >= 60)		//If Dexterity >= 60, then the player gains 10 Strength points
+			if(Player[i].Dexterity >= 60)		//If Dexterity >= 60, then the player gains 10 Strength points
 			{
-				Player->Strength = Player->Strength + 10;
+				Player[i].Strength = Player[i].Strength + 10;
 			}
-			if(Player->Dexterity < 50)		//If Dexterity < 50, then the player loses 10 Strength points
+			if(Player[i].Dexterity < 50)		//If Dexterity < 50, then the player loses 10 Strength points
 			{
-				Player->Strength = Player->Strength - 10;
-			}
-		}
-		if(strcmp(&board->type, "City")==0)
-		{
-			if(Player->Smartness > 60)		//If Smartness > 60, then the player gains 10 Magic Skills points
-			{
-				Player->MagicSkills = Player->MagicSkills + 10;
-			}
-			if(Player->Smartness <= 50)		//If Smartness <=50, then the player loses 10 Dexterity points.
-			{
-				Player->Dexterity = Player->Dexterity - 10;
+				Player[i].Strength = Player[i].Strength - 10;
 			}
 		}
-		if(Player->MagicSkills > 100)
+		if(!strcmp(&board[row][column].type, "City"))
 		{
-			Player->MagicSkills = 100;
+			if(Player[i].Smartness > 60)		//If Smartness > 60, then the player gains 10 Magic Skills points
+			{
+				Player[i].MagicSkills = Player[i].MagicSkills + 10;
+			}
+			if(Player[i].Smartness <= 50)		//If Smartness <=50, then the player loses 10 Dexterity points.
+			{
+				Player[i].Dexterity = Player[i].Dexterity - 10;
+			}
 		}
-		if(Player->Strength > 100)
+		if(Player[i].MagicSkills > 100)
 		{
-			Player->Strength = 100;
+			Player[i].MagicSkills = 100;
 		}
-		if(Player->Dexterity > 100)
+		if(Player[i].Strength > 100)
 		{
-			Player->Dexterity = 100;
+			Player[i].Strength = 100;
 		}
-		if(Player->Dexterity < 0)
+		if(Player[i].Dexterity > 100)
 		{
-			Player->Dexterity = 0;
+			Player[i].Dexterity = 100;
 		}
-		if(Player->Strength < 0)
+		if(Player[i].Dexterity < 0)
 		{
-			Player->Strength = 0;
+			Player[i].Dexterity = 0;
+		}
+		if(Player[i].Strength < 0)
+		{
+			Player[i].Strength = 0;
 		}
 }
 
-void deboost(struct Players *Player, struct slot *board)	//when moving off a slot takes away given stats and returns them to what was given at start
+void deboost(int i)	//when moving off a slot takes away given stats and returns them to what was given at start
 {
-	if(strcmp(&board->type, "Hill")==0)
+	int row = Player[i].PlaceRow;
+	int column = Player[i].PlaceColumn;
+
+
+	if(strcmp(&board[row][column].type, "Hill")==0)
 	{
-		if(Player->Dexterity >= 60)
+		if(Player[i].Dexterity >= 60)
 		{
-			Player->Strength = Player->Strength - 10;
+			Player[i].Strength = Player[i].Strength - 10;
 		}
-		if(Player->Dexterity < 50)
+		if(Player[i].Dexterity < 50)
 		{
-			Player->Strength = Player->Strength + 10;
-		}
-	}
-	if(strcmp(&board->type, "City")==0)
-	{
-		if(Player->Smartness > 60)
-		{
-			Player->MagicSkills = Player->MagicSkills - 10;
-		}
-		if(Player->Smartness <= 50)
-		{
-			Player->Dexterity = Player->Dexterity + 10;
+			Player[i].Strength = Player[i].Strength + 10;
 		}
 	}
-	if(Player->MagicSkills > 100)
+	if(strcmp(&board[row][column].type, "City")==0)
 	{
-		Player->MagicSkills = 100;
+		if(Player[i].Smartness > 60)
+		{
+			Player[i].MagicSkills = Player[i].MagicSkills - 10;
+		}
+		if(Player[i].Smartness <= 50)
+		{
+			Player[i].Dexterity = Player[i].Dexterity + 10;
+		}
 	}
-	if(Player->Strength > 100)
+	if(Player[i].MagicSkills > 100)
 	{
-		Player->Strength = 100;
+		Player[i].MagicSkills = 100;
 	}
-	if(Player->Dexterity > 100)
+	if(Player[i].Strength > 100)
 	{
-		Player->Dexterity = 100;
+		Player[i].Strength = 100;
 	}
-	if(Player->Dexterity < 0)
+	if(Player[i].Dexterity > 100)
 	{
-		Player->Dexterity = 0;
+		Player[i].Dexterity = 100;
 	}
-	if(Player->Strength < 0)
+	if(Player[i].Dexterity < 0)
 	{
-		Player->Strength = 0;
+		Player[i].Dexterity = 0;
+	}
+	if(Player[i].Strength < 0)
+	{
+		Player[i].Strength = 0;
 	}
 }

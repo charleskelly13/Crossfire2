@@ -7,6 +7,7 @@
  */
 
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include "crossfireOperations.h"
 
@@ -143,31 +144,49 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 	struct slot *foundSlots;
 	bool explored[BOARDSIZE][BOARDSIZE];
 
-	for(i=0; i<Player_Num; i++)
+	foundSlots = malloc(BOARDSIZE * BOARDSIZE * sizeof(struct slot ));
+
+	for(i=0; i<6; i++)
 	{
-		status[i]=alive;// Sets all available players to alive
+		status[i]=alive;
 	}
 
 	while(death>1)// While more than one player is alive/ hasn't quit
 	{
 		for(turn=0; turn<Player_Num; turn++) //move or attack
 		{
+			choice = 10;
+			attackchoice = 10;
+			attack_player = 10;
+
+
+			for(i=0; i<Player_Num; i++)
+			{
+				abl[i]=0;
+			}
+
+
 			if(status[turn]!=dead && status[turn]!=quit)
 			{
 				//print stats after each player
-				printf("\nPlayer\tLife Points\tRace\tStrength\tMagic\tDexterity\tLuck\tWisdom\tName\n");
+				if(Player[turn].LifePoints<=0)
+				{
+					printf("Player %d is out of the game", turn+1);
+				}
 				for(j=0; j<Player_Num; j++)
 				{
 					if(status[j]==dead)
 					{
 						printf("\nPlayer %d is dead\n", j+1);
 					}
-				else  if(status[j]==quit)
-				{
-					printf("\nPlayer %d has quit\n", j+1);
-					}
-					else
+					else  if(status[j]==quit)
 					{
+						printf("\nPlayer %d has quit\n", j+1);
+					}
+				}
+				printf("\nPlayer\tLife Points\tRace\tStrength\tMagic\tDexterity\tLuck\tWisdom\tName\n");
+				for(j=0; j<Player_Num; j++)
+				{
 					printf("%d\t%d\t\t%s\t%d\t\t%d\t%d\t\t%d\t%d\t%s",
 							j+1,
 							Player[j].LifePoints,
@@ -178,7 +197,6 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 							Player[j].Luck,
 							Player[j].Smartness,
 							Player[j].Name);
-					}
 				}
 				printf("\n");
 
@@ -189,7 +207,7 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 					{
 						for(k=0; k<Player_Num; k++)
 						{
-							if((board[i][j].row == Player[k].PlaceRow && board[i][j].column == Player[k].PlaceColumn) && (status[k]!=quit || status[k]!=dead))
+							if((board[i][j].row == Player[k].PlaceRow && board[i][j].column == Player[k].PlaceColumn) && (Player[k].LifePoints!=0))
 							{
 								printf("P%d ", k+1);
 							}
@@ -203,7 +221,28 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 							}
 						}
 						counter=0;
-						printf("\t");
+						printf("\t\t");
+					}
+					printf("\n");
+				}
+
+				for(i=0; i<BOARDSIZE; i++)
+				{
+					for(j=0; j<BOARDSIZE; j++)
+					{
+						if(!strcmp(&board[i][j].type, "Ground"))
+						{
+							printf("Ground");
+						}
+						if(!strcmp(&board[i][j].type, "City"))
+						{
+							printf("City");
+						}
+						if(!strcmp(&board[i][j].type, "Hill"))
+						{
+							printf("Hill");
+						}
+						printf("\t\t");
 					}
 					printf("\n");
 				}
@@ -218,7 +257,6 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 
 				while(choice!=1 && choice!=2 && choice!=3)		//checks if choice is valid
 				{
-					printf("\n%d\n", choice);
 					printf("This is not an option!!\n"
 							"Enter 1 to move or "
 							"2 to attack or"
@@ -230,20 +268,22 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 				//if move -> move function
 				if(choice==1)
 				{
-					deboost(&Player[turn], &board[Player[turn].PlaceRow][Player[turn].PlaceColumn]);		//removes change of stats before moving
+					deboost(turn);		//removes change of stats before moving
 					move(&Player[turn]);	//moves player
-					boost(&Player[turn], &board[Player[turn].PlaceRow][Player[turn].PlaceColumn]);		//changes stats according to type of slot
+					boost(turn);		//changes stats according to type of slot
 				}
 
 				//if attack -> attack function
 				if(choice==2)
 				{
-					if(Player[turn].Smartness+Player[turn].MagicSkills>150)// Prints if the player is capable of a magic attack
+					if(Player[turn].Smartness + Player[turn].MagicSkills>150)// Prints if the player is capable of a magic attack
 					{
 						printf("Enter 1 for a near attack, "
 								"2 for a distant attack or "
 								"3 for a magic attack: ");
 						scanf("%d", &attackchoice);
+
+
 						while(attackchoice!=1 && attackchoice!=2 && attackchoice!=3)
 						{
 							printf("That is not a valid input."
@@ -252,12 +292,15 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 									"3 for a magic attack: ");
 							scanf("%d", &attackchoice);
 						}
+
+
 					}
 					else// Prints if player cannot use a magic attack
 					{
 						printf("Enter 1 for a near attack or "
 								"2 for a distant attack:");
 						scanf("%d", &attackchoice);
+
 						while(attackchoice!=1 && attackchoice!=2)
 						{
 							printf("That is not a valid input."
@@ -283,7 +326,7 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 							{
 								if(Player[k].PlaceRow==Player[turn].PlaceRow && (Player[k].PlaceColumn==Player[turn].PlaceColumn || Player[k].PlaceColumn==Player[turn].PlaceColumn +1 || Player[k].PlaceColumn==Player[turn].PlaceColumn-1))
 								{
-									abl[k]=1;// If a playeer is near enough then their position in the array is set to 1 to indictae this
+									abl[k]=1;// If a player is near enough then their position in the array is set to 1 to indictae this
 									u=1;// Signifies that at least one player is able to be attacked
 								}
 								else if(Player[k].PlaceColumn==Player[turn].PlaceColumn && (Player[k].PlaceRow==Player[turn].PlaceRow || Player[k].PlaceRow==Player[turn].PlaceRow+1 || Player[k].PlaceRow==Player[turn].PlaceRow-1))
@@ -306,28 +349,30 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 								}
 								k++;
 							}
+
 							printf("Choose which player to attack P?");
 							scanf("%d", &attack_player);
-							while(k==turn || abl[attack_player]<1 || status[attack_player-1]== dead || status[attack_player-1]==quit)// If the player you input is yourself or a player you can't attack it will continue to ask for a player to attack
+
+							while(abl[attack_player-1]==0 || status[attack_player-1]== dead || status[attack_player-1]==quit)// If the player you input is yourself or a player you can't attack it will continue to ask for a player to attack
 							{
 								printf("Choose which player to attack P?");
 								scanf("%d", &attack_player);
 							}
-							nearattack(&Player[turn], &Player[attack_player-1]);// 	Calls the near attack function
+							nearattack(turn, attack_player);// 	Calls the near attack function
 						}
 						else
 						{
 							printf("There are no players for you to attack\n");
 						}
+						u=0;
 					}
-					if(attackchoice==2)													//distance attack
-					{
-						for(i=0; i<Player_Num; i++)
-						{
-							abl[k]=0;
-						}
 
-					currSlot = &board[Player[turn].PlaceRow][Player[turn].PlaceColumn];
+
+					//distance attack
+					if(attackchoice==2)
+					{
+
+						currSlot = &board[Player[turn].PlaceRow][Player[turn].PlaceColumn];
 
 						for(int i=0; i<BOARDSIZE; i++)
 						{
@@ -337,7 +382,6 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 							}
 						}
 
-						foundSlots = malloc(BOARDSIZE * BOARDSIZE * sizeof(struct slot ));
 
 						if(currSlot!= NULL)
 						{
@@ -348,21 +392,21 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 								findSlots(distance, 0, currSlot, foundSlots, &count, explored);
 							}
 						}
-						printf("\nPlayers available to attack!!");
+						printf("\nPlayers available to attack!!\n");
 						for(int i=0; i<BOARDSIZE; i++)		//find players to attack
 						{
 							for(j=0; j<BOARDSIZE; j++)
 							{
 								if(explored[i][j]==true)
 								{
-//									printf("[%d][%d]\n", i, j);	test
+//									printf("[%d][%d]\n", i, j);	//test
 									for(k=0; k<Player_Num; k++)
 									{
-										if(i!=Player[turn].PlaceRow && j!=Player[turn].PlaceColumn)
+										if(k!=turn)
 										{
 											if(i==Player[k].PlaceRow && j==Player[k].PlaceColumn)
 											{
-												printf("\nYou can attack Player %d, %s", k+1, Player[k].Name);
+												printf("You can attack Player %d, %s", k+1, Player[k].Name);
 												abl[k]=1;
 											}
 										}
@@ -370,21 +414,23 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 								}
 							}
 						}
+
 						do
 						{
 							printf("Select one of these players to attack Player ?\n");
 							scanf("%d", &attack_player);
 						}while(abl[attack_player-1]==0 || status[attack_player-1]== dead ||status[attack_player-1]== quit);
 
-						disattack(&Player[turn], &Player[attack_player]);
+						disattack(turn, attack_player);
 						for(i=0; i<Player_Num; i++)
 						{
 							abl[k]=0;
 						}
-						attack_player=7;
-}
+					}
 
-					if(attackchoice==3)		//magic attack
+
+					//magic attack
+					if(attackchoice==3)
 					{
 						for(int k=0; k<Player_Num; k++)
 						{
@@ -395,37 +441,40 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 							}
 						}
 						scanf("%d", &attack_player);
-						while(attack_player-1==turn || attack_player-1 >Player_Num || attack_player <= 0 || status[attack_player-1]==dead || status[attack_player-1]==quit)// If the input is the players whos turn it is, greater than the amount of players in game,the inputted player is dead or quit or the input is less than 1 the user will be asked to input again 
-						{
+						while(attack_player-1==turn || attack_player-1>Player_Num || attack_player<0 || status[attack_player-1]==dead || status[attack_player-1]==quit)
+						{// If the input is the players whos turn it is,
+							//greater than the amount of players in game,the inputted player
+							//is dead or quit or the input is less than 1 the user will be asked to input again
 							printf("Choose a player to attack:");
 							scanf("%d", &attack_player);
 						}
-						magicattack(&Player[turn], &Player[attack_player-1]);// Calls magic attack function
+						magicattack(turn, attack_player);
 					}
 
 					k=0;
-					while(k<Player_Num)					//errors here what is l
+					while(k<Player_Num)
 					{
 						if(Player[k].LifePoints<=0)// If a players life points have reached zero or less they are assigned the value dead
 						{
-							if(status[k]!=dead)
+							if(Player[k].LifePoints!=0)
 							{
-								status[k]= dead;
-								death=death-1;// Amount of active players
+								Player[k].LifePoints= dead;
+								death=death-1;// Amount of active players decreases
 							}
 						}
 						k++;
 					}
 				}
 
-				if(choice==3)// Changes players value to quit
+				//if choice is to quit
+				// Changes players value to quit
+				if(choice==3)
 				{
-					status[turn]=quit;
+					Player[turn].LifePoints=0;
 					death=death-1;
 				}
 			}
 		}
-
 		if(status[turn]==quit || status[turn]==dead)
 		{
 			Player[turn].LifePoints=0;
@@ -434,57 +483,6 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 			Player[turn].Dexterity=0;
 			Player[turn].Luck=0;
 			Player[turn].Smartness=0;
-		}
-
-		//print stats after each player
-		for(j=0; j<Player_Num; j++)
-		{
-			if(status[j]==dead)
-			{
-				printf("\nPlayer %d is dead\n", j+1);
-			}
-			else  if(status[j]==quit)
-			{
-				printf("\nPlayer %d has quit\n", j+1);
-			}
-			else
-			{
-				printf("\n\nPlayer [%d]: %s"
-						"Life Points %d\n"
-						"Player Type: %s\n"
-						"Strength: %d\n"
-						"Magic: %d\n"
-						"Dexterity: %d\n"
-						"Luck: %d\n"
-						"Smartness: %d\n",
-						j+1, Player[j].Name,
-						Player[j].LifePoints,
-						Player[j].Race,
-						Player[j].Strength,
-						Player[j].MagicSkills,
-						Player[j].Dexterity,
-						Player[j].Luck,
-						Player[j].Smartness);
-			}
-		}
-		printf("\n");
-		for(i=0; i<BOARDSIZE; i++)
-		{
-			for(j=0; j<BOARDSIZE; j++)
-			{
-				for(k=0; k<Player_Num; k++)
-				{
-					if((board[i][j].row == Player[k].PlaceRow && board[i][j].column == Player[k].PlaceColumn) && (status[k]!=quit || status[k]!=dead))
-					{
-						printf("P%d\t", k+1);
-					}
-					else
-					{
-						printf("_\t");
-					}
-				}
-			}
-			printf("\n");
 		}
 	}
 }

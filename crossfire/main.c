@@ -13,6 +13,7 @@ int main()
 	setvbuf(stdout, 0, _IONBF, 0);
 	Player_Num = InputPlayers();
 
+	printf("changed boost");
 	//pointer to slot (0,0)
 	struct slot *upLeft;
 
@@ -34,7 +35,7 @@ int main()
 
 	for(i=0; i<Player_Num; i++)
 	{
-		boost(&Player[i], &board[Player->PlaceRow][Player->PlaceColumn]);
+		boost(i);
 	}
 
 	turns(Player_Num, upLeft, upRight, downLeft, downRight);

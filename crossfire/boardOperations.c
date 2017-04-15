@@ -171,7 +171,6 @@ void findSlots(int reqDist, int currDist,  struct slot * currSlot, struct slot *
 //			printf("findslots test 2b\n");
 			//the matrix of the explored slots set to true the element at the row and column of the current slot
 			explored[currSlot->row][currSlot->column] = true;
-			printf("\nexplored\n");
 		}
 	}
 	//The recursive call: the current slot is at a distance that is less than the required distance (more slots still have to be traversed)

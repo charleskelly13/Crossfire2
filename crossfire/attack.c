@@ -10,31 +10,28 @@
 
 
 
-void disattack(struct Players *attacker, struct Players *attacked)		//distant attack function
+void disattack(int attacker, int attacked)		//distant attack function
 {
-	if(attacked->Dexterity>=attacker->Dexterity)
-	{
-	}
-	else if(attacker->Dexterity>attacked->Dexterity)	//If the dexterity points of the attacked player are greater than the attacked players dexterity
+	if(Player[attacker].Dexterity>Player[attacked-1].Dexterity)	//If the dexterity points of the attacked player are greater than the attacked players dexterity
 	{								//the attacker life points = life points - 0.3 * (attacker player’s strength points).
-		attacked->LifePoints=attacked->LifePoints - (0.3*attacker->Strength);
+		Player[attacked-1].LifePoints = Player[attacked-1].LifePoints - (0.3*Player[attacker].Strength);
 	}
 }
 
-void magicattack(struct Players *attacker, struct Players *attacked)		//magic attack function
+void magicattack(int attacker, int attacked)		//magic attack function
 {
-	attacked->LifePoints=attacked->LifePoints - ((0.3*attacker->MagicSkills)+(0.2*attacker->Smartness));
+	Player[attacked-1].LifePoints = Player[attacked-1].LifePoints - ((0.5* Player[attacker].MagicSkills)+(0.2 * Player[attacker].Smartness));
 }
 
-void nearattack(struct Players *attacker, struct Players *attacked)		//attack function
+void nearattack(int attacker, int attacked)		//attack function
 {
-	if(attacked->Strength>70)//If the Strength points of the attacked player are <=70,
+	if(Player[attacked-1].Strength>70)//If the Strength points of the attacked player are <=70,
 	{						//then attacked player life points = life points - 0.5 * his/her Strength points.
-		attacker->LifePoints=attacker->LifePoints - (0.3*attacked->Strength);
+		Player[attacker].LifePoints=Player[attacker].LifePoints - (0.3* Player[attacked-1].Strength);
 	}
-	else if(attacked->Strength<=70)	//If the strength points of the attacked player are > 70,
+	else if(Player[attacked-1].Strength<=70)	//If the strength points of the attacked player are > 70,
 	{								//the attacker life points = life points - 0.3 * (attacked player’s strength points).
-		attacked->LifePoints=attacked->LifePoints - (0.5*attacked->Strength);
+		Player[attacked-1].LifePoints=Player[attacked-1].LifePoints - (0.5* Player[attacker].Strength);
 	}
 }
 

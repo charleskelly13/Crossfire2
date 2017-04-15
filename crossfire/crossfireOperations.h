@@ -100,15 +100,15 @@ void findSlots(int reqDist, int currDist,  struct slot * currSlot, struct slot *
 
 
 int InputPlayers();
-void boost(struct Players *Player, struct slot *board);		//changing stats depending on slot type
-void deboost(struct Players *Player, struct slot *board);	//removing stats when player moves off some slot types
+void boost(int i);		//changing stats depending on slot type
+void deboost(int i);	//removing stats when player moves off some slot types
 void type(struct Players *Player);		//give player a type
 void stat(struct Players *Player);		//give player stats
 void move(struct Players *Player);		//function to move players
 void assignPlace(const int Player_Num);	//place players on slots
 
 void BoardType();
-void magicattack(struct Players *attacker, struct Players *attacked);
-void disattack(struct Players *attacker, struct Players *attacked);
-void nearattack(struct Players *attacker, struct Players *attacked);			//near attack function
+void magicattack(int attacker, int attacked);
+void disattack(int attacker, int attacked);
+void nearattack(int attacker, int attacked);			//near attack function
 void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, struct slot *downLeft, struct slot *downRight);
