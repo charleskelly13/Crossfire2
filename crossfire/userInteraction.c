@@ -121,7 +121,7 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 {
 	int turn, choice, attackchoice, abl[Player_Num], u=0;
 	int k, j, i, count=0, distance, attack_player, counter=0;
-	enum dead status[Player_Num];
+	
 	int death = Player_Num, anyplayers=0;
 	struct slot* currSlot = NULL;
 	struct slot *foundSlots;
@@ -141,7 +141,7 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 
 	while(death>1)// While more than one player is alive/ hasn't quit
 	{
-		for(turn=0; turn<Player_Num; turn++) //move, attack or quit for each player
+		for(turn=0; turn<Player_Num&&death>1; turn++) //move, attack or quit for each player
 		{
 			choice = 10;
 			attackchoice = 10;
@@ -356,18 +356,7 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 							printf("There are no players for you to attack\n");
 						}
 						u=0;
-						
-						if(Player[attack_player-1].LifePoints<=0)
-						{
-							status[attack_player-1] = dead;
-							Player[attack_player-1].LifePoints= 0;
-							death=death-1;// Amount of active players decreases
-							Player[attack_player-1].Strength=0;
-							Player[attack_player-1].MagicSkills=0;
-							Player[attack_player-1].Dexterity=0;
-							Player[attack_player-1].Luck=0;
-							Player[attack_player-1].Smartness=0;
-						}
+					
 					}
 
 
@@ -439,17 +428,6 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 
 							disattack(turn, attack_player);
 							
-							if(Player[attack_player-1].LifePoints<=0)
-							{
-								status[attack_player-1] = dead;
-								Player[attack_player-1].LifePoints= 0;
-								death=death-1;// Amount of active players decreases
-								Player[attack_player-1].Strength=0;
-								Player[attack_player-1].MagicSkills=0;
-								Player[attack_player-1].Dexterity=0;
-								Player[attack_player-1].Luck=0;
-								Player[attack_player-1].Smartness=0;
-							}
 						}
 						
 						for(i=0; i<Player_Num; i++)		//reset player attack array to 0's for next attack
@@ -480,17 +458,7 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 						}
 						magicattack(turn, attack_player);
 						
-						if(Player[attack_player-1].LifePoints<=0)
-						{
-							status[attack_player-1] = dead;
-							Player[attack_player-1].LifePoints= 0;
-							death=death-1;// Amount of active players decreases
-							Player[attack_player-1].Strength=0;
-							Player[attack_player-1].MagicSkills=0;
-							Player[attack_player-1].Dexterity=0;
-							Player[attack_player-1].Luck=0;
-							Player[attack_player-1].Smartness=0;
-						}
+						
 					}//end magic attack
 					
 				}//end attacks
@@ -500,8 +468,19 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 				if(choice==3)
 				{
 					Player[turn].LifePoints=0;
+					status[turn]=quit;
 					death=death-1;
 				}//end quit
+				k=0;
+				while(k<Player_Num)
+				{
+					if(Player[k].LifePoints<=0)
+					{
+						status[k]=dead;
+						death=death-1;
+					}
+					k=k+1;
+				}
 			}
 		}
 	}
