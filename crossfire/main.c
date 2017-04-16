@@ -39,6 +39,14 @@ int main()
 	}
 
 	turns(Player_Num, upLeft, upRight, downLeft, downRight);
+	
+	for(i=0; i<Player_Num; i++)
+	{
+		if(Player[i].LifePoints!=0)
+		{
+			printf("\nCongratulations %sYou have won the game!!!", Player[i].Name);
+		}
+	}
 
 	return 0;
 }
