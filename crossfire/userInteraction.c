@@ -1,11 +1,3 @@
-/*
- * userInteraction.c
-
- *
- *  Created on: 29 Mar 2017
- *      Author: liliana
- */
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -138,7 +130,7 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 {
 	int turn, choice, attackchoice, abl[Player_Num], u=0;
 	int k, j, i, count=0, distance, attack_player, counter=0;
-	enum dead status[6];
+	enum dead status[Player_Num];
 	int death = Player_Num;
 	struct slot* currSlot = NULL;
 	struct slot *foundSlots;
@@ -146,9 +138,14 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 
 	foundSlots = malloc(BOARDSIZE * BOARDSIZE * sizeof(struct slot ));
 
-	for(i=0; i<6; i++)
+	for(i=0; i<Player_Num; i++)
 	{
 		status[i]=alive;
+	}
+	
+	for(i=0; i<Player_Num; i++)
+	{
+		printf("%d", status[i]);
 	}
 
 	while(death>1)// While more than one player is alive/ hasn't quit
@@ -198,8 +195,7 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 							Player[j].Smartness,
 							Player[j].Name);
 				}
-				printf("\n");
-
+				printf("\nPlayer positions:\n");
 
 				for(i=0; i<BOARDSIZE; i++)
 				{
@@ -226,6 +222,7 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 					printf("\n");
 				}
 
+				printf("\nSlot Types:\n");
 				for(i=0; i<BOARDSIZE; i++)
 				{
 					for(j=0; j<BOARDSIZE; j++)
@@ -422,10 +419,11 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 						}while(abl[attack_player-1]==0 || status[attack_player-1]== dead ||status[attack_player-1]== quit);
 
 						disattack(turn, attack_player);
-						for(i=0; i<Player_Num; i++)
+						for(i=0; i<Player_Num; i++)		//reset player attack array to 0's for next attack
 						{
 							abl[k]=0;
 						}
+						count=0;		//reset count for next distance attack
 					}
 
 
@@ -450,20 +448,6 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 						}
 						magicattack(turn, attack_player);
 					}
-
-					k=0;
-					while(k<Player_Num)
-					{
-						if(Player[k].LifePoints<=0)// If a players life points have reached zero or less they are assigned the value dead
-						{
-							if(Player[k].LifePoints!=0)
-							{
-								Player[k].LifePoints= dead;
-								death=death-1;// Amount of active players decreases
-							}
-						}
-						k++;
-					}
 				}
 
 				//if choice is to quit
@@ -473,16 +457,29 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 					Player[turn].LifePoints=0;
 					death=death-1;
 				}
+				while(k<Player_Num)
+				{
+					if(Player[k].LifePoints<=0)// If a players life points have reached zero or less they are assigned the value dead
+					{
+						if(Player[k].LifePoints!=0)
+						{
+							Player[k].LifePoints= dead;
+							death=death-1;// Amount of active players decreases
+						}
+					}
+					if(status[turn]==quit || status[turn]==dead)
+					{
+						Player[turn].LifePoints=0;
+						Player[turn].Strength=0;
+						Player[turn].MagicSkills=0;
+						Player[turn].Dexterity=0;
+						Player[turn].Luck=0;
+						Player[turn].Smartness=0;
+					}
+					k++;
+				}
 			}
-		}
-		if(status[turn]==quit || status[turn]==dead)
-		{
-			Player[turn].LifePoints=0;
-			Player[turn].Strength=0;
-			Player[turn].MagicSkills=0;
-			Player[turn].Dexterity=0;
-			Player[turn].Luck=0;
-			Player[turn].Smartness=0;
+			k=0;
 		}
 	}
 }

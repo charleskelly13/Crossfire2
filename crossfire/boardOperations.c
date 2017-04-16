@@ -154,6 +154,7 @@ void BoardType()
 */
 void findSlots(int reqDist, int currDist,  struct slot * currSlot, struct slot * foundSlots, int * count,  bool explored[BOARDSIZE][BOARDSIZE])
 {
+//	printf("\ncount is %d", *count);	test
 //	printf("currSlot[%d][%d]\n", currSlot->row, currSlot->column);		test
 	//The base case: the current slot is at the required distance from the starting slot
 	if(currDist == reqDist)

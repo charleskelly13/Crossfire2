@@ -47,16 +47,16 @@ struct slot{
 
 struct Players	//struct for players
 {
-   char  Name[25];
-   char  Race[7];
-   int   Strength;
-   int   MagicSkills;
-   int	 Dexterity;
-   int   Luck;
-   int	 Smartness;
-   int	 LifePoints;
-   int	 PlaceRow;
-   int	 PlaceColumn;
+   char	Name[25];
+   char	Race[7];
+   int	Strength;
+   int	MagicSkills;
+   int	Dexterity;
+   int	Luck;
+   int	Smartness;
+   int	LifePoints;
+   int	PlaceRow;
+   int	PlaceColumn;
 }Player[6];
 
 /*
