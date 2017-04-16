@@ -259,7 +259,7 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 				{
 					printf("This is not an option!!\n"
 							"Enter 1 to move or "
-							"2 to attack or"
+							"2 to attack or "
 							"3 to quit the game\n");
 					scanf("%d", &choice);
 					getchar();
