@@ -8,8 +8,8 @@
 #ifndef CROSSFIREOPERATIONS_H_
 #define CROSSFIREOPERATIONS_H_
 #define BOARDSIZE 7
-#define MIN_DISTANCE 2		//min distance?
-#define MAX_DISTANCE 4		//max distance?
+#define MIN_DISTANCE 2		//min distance
+#define MAX_DISTANCE 4		//max distance
 
 #endif /* CROSSFIREOPERATIONS_H_ */
 
