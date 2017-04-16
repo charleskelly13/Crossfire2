@@ -45,40 +45,30 @@ int InputPlayers()
 void move(struct Players *Player)	//function to move players
  {
  	int right=0, left=0, down=0, up=0, e;
+	
+	//if statements to check if it can't move a certain way
  	if(board[Player->PlaceRow][Player->PlaceColumn].column==BOARDSIZE-1)
  	{
  		right=1;
+		printf("You can't move right.\n");
  	}
  	if(board[Player->PlaceRow][Player->PlaceColumn].column==0)
  	{
  		left=1;
+		printf("You can't move left.\n");
  	}
  	if(board[Player->PlaceRow][Player->PlaceColumn].row==BOARDSIZE-1)
  	{
  		down=1;
+		printf("You can't move down.\n");
  	}
  	if(board[Player->PlaceRow][Player->PlaceColumn].up==0)
  	{
  		up=1;
+		printf("You can't move up.\n");
  	}
 
- 	if(right==1)
- 	{
- 		printf("You can't move right.\n");
- 	}
- 	if(left==1)
- 	{
- 		printf("You can't move left.\n");
- 	}
- 	if(down==1)
- 	{
- 		printf("You can't move down.\n");
- 	}
- 	if(up==1)
- 	{
- 		printf("You can't move up.\n");
- 	}
-
+	//input commands if they can move a certain way, designed on the number keypad
  	if(right==0)
  	{
  		printf("Enter 6 to move right\n");
@@ -98,13 +88,13 @@ void move(struct Players *Player)	//function to move players
 
  	scanf("%d", &e);
  	getchar();
- 	while(e!=2 && e!=4 && e!=6 && e!=8)
+ 	while(e!=2 && e!=4 && e!=6 && e!=8)		//if those numbers aren't entered
  	{
  		printf("Enter a valid number");
  		scanf("%d", &e);
  		getchar();
  	}
-
+	//if statements to move players
  	if(e==4 && Player->PlaceColumn!=0)
  	{
  		Player->PlaceColumn = Player->PlaceColumn - 1;
@@ -121,7 +111,8 @@ void move(struct Players *Player)	//function to move players
  	{
  		Player->PlaceRow = Player->PlaceRow - 1;
  	}
-
+	
+	//prints new place of the player
  	printf("\n(%d,%d) is now occupied by %s", Player->PlaceRow, Player->PlaceColumn, Player->Name);
  }
 
@@ -131,7 +122,7 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 	int turn, choice, attackchoice, abl[Player_Num], u=0;
 	int k, j, i, count=0, distance, attack_player, counter=0;
 	enum dead status[Player_Num];
-	int death = Player_Num;
+	int death = Player_Num, anyplayers=0;
 	struct slot* currSlot = NULL;
 	struct slot *foundSlots;
 	bool explored[BOARDSIZE][BOARDSIZE];
@@ -369,6 +360,13 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 						if(Player[attack_player-1].LifePoints<=0)
 						{
 							status[attack_player-1] = dead;
+							Player[attack_player-1].LifePoints= 0;
+							death=death-1;// Amount of active players decreases
+							Player[attack_player-1].Strength=0;
+							Player[attack_player-1].MagicSkills=0;
+							Player[attack_player-1].Dexterity=0;
+							Player[attack_player-1].Luck=0;
+							Player[attack_player-1].Smartness=0;
 						}
 					}
 
@@ -409,28 +407,49 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 									{
 										if(k!=turn)
 										{
-											if(i==Player[k].PlaceRow && j==Player[k].PlaceColumn)
+											if(i==Player[k].PlaceRow && j==Player[k].PlaceColumn && status[k] == alive)
 											{
-												printf("You can attack Player %d, %s", k+1, Player[k].Name);
 												abl[k]=1;
+												anyplayers++;
 											}
 										}
 									}
 								}
 							}
 						}
-
-						do
-						{
-							printf("Select one of these players to attack Player ?\n");
-							scanf("%d", &attack_player);
-						}while(abl[attack_player-1]==0 || status[attack_player-1]== dead ||status[attack_player-1]== quit);
-
-						disattack(turn, attack_player);
 						
-						if(Player[attack_player-1].LifePoints<=0)
+						if(anyplayers==0)
 						{
-							status[attack_player-1] = dead;
+							printf("There are no other players within range");
+						}
+						else
+						{
+							for(i=0; i<Player_Num; i++)
+							{
+								if(abl[i]==1 && status[i]==alive)
+								{
+									printf("You can attack Player %d, %s", i+1, Player[i].Name);
+								}
+							}
+							do
+							{
+								printf("Select one of these players to attack Player ?\n");
+								scanf("%d", &attack_player);
+							}while(abl[attack_player-1]==0 || status[attack_player-1]== dead ||status[attack_player-1]== quit);
+
+							disattack(turn, attack_player);
+							
+							if(Player[attack_player-1].LifePoints<=0)
+							{
+								status[attack_player-1] = dead;
+								Player[attack_player-1].LifePoints= 0;
+								death=death-1;// Amount of active players decreases
+								Player[attack_player-1].Strength=0;
+								Player[attack_player-1].MagicSkills=0;
+								Player[attack_player-1].Dexterity=0;
+								Player[attack_player-1].Luck=0;
+								Player[attack_player-1].Smartness=0;
+							}
 						}
 						
 						for(i=0; i<Player_Num; i++)		//reset player attack array to 0's for next attack
@@ -440,13 +459,12 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 						count=0;		//reset count for next distance attack
 					}
 
-
 					//magic attack
 					if(attackchoice==3)
 					{
 						for(int k=0; k<Player_Num; k++)
 						{
-							if(k!=turn)// Prints players available to be attacked
+							if(k!=turn && status[k]==alive)// Prints players available to be attacked
 							{
 								printf("Choose a player to attack:\n"
 										"P%d %s", k+1, Player[k].Name);
@@ -474,6 +492,7 @@ void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, stru
 							Player[attack_player-1].Smartness=0;
 						}
 					}//end magic attack
+					
 				}//end attacks
 
 				//if choice is to quit
