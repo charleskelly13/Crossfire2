@@ -42,7 +42,7 @@ int main()
 	
 	for(i=0; i<Player_Num; i++)
 	{
-		if(Player[i].LifePoints!=0)
+		if(status[i]!=dead && status[i]!=quit)
 		{
 			printf("\nCongratulations %sYou have won the game!!!", Player[i].Name);
 		}

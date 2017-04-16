@@ -26,7 +26,7 @@ enum dead {
 	dead,
 	quit
 	};
-
+enum dead status[6];
 struct slot{
 	//row number
 	int row;
