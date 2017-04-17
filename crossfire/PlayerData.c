@@ -103,14 +103,14 @@ void stat(struct Players *Player)		//player stat function
 void assignPlace(const int Player_Num)
 {
 	srand(time(NULL));
-	int i, a, b;
+	int i, row, column;
 
 	for(i=0; i<Player_Num; i++)
 	{
-		a = rand()%BOARDSIZE;
-		b = rand()%BOARDSIZE;
-		Player[i].PlaceRow = a;
-		Player[i].PlaceColumn = b;
+		row = rand()%BOARDSIZE; //places random row into variable
+		column = rand()%BOARDSIZE;	//places random column into variable
+		Player[i].PlaceRow = row;
+		Player[i].PlaceColumn = column;
 		printf("\n%s"
 				"Is on row=%d, "
 				"column=%d ,"

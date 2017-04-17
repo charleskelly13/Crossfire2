@@ -1,10 +1,3 @@
-/*
- * crossfireOperations.h
- *
- *  Created on: 31 Mar 2017
- *      Author: Órla
- */
-
 #ifndef CROSSFIREOPERATIONS_H_
 #define CROSSFIREOPERATIONS_H_
 #define BOARDSIZE 7
@@ -26,7 +19,7 @@ enum dead {
 	dead,
 	quit
 	};
-enum dead status[6];
+
 struct slot{
 	//row number
 	int row;
@@ -74,15 +67,6 @@ struct Players	//struct for players
  */
 void createBoard(struct slot **upLeft, struct slot **upRight, struct slot **downLeft, struct slot **downRight);
 
-/*
- * This function traverses the board to find a slot at a predefined
- * position (row, column)
- * Parameters:
- * 	row: the row in which the desired slot is located
- * 	column: the column in which the desired slot is located
- * 	initialSlot: the slot from which the slot search should start
- */
-struct slot *  reachDesiredElement(int row, int column, struct slot * initialSlot);
 
 /*
  * The recursive function that traverses the board to find the slots at a predefined
@@ -99,7 +83,7 @@ void findSlots(int reqDist, int currDist,  struct slot * currSlot, struct slot *
 
 
 
-int InputPlayers();
+int InputPlayers();		//input for player, name, type calls type & stat function
 void boost(int i);		//changing stats depending on slot type
 void deboost(int i);	//removing stats when player moves off some slot types
 void type(struct Players *Player);		//give player a type
@@ -107,8 +91,11 @@ void stat(struct Players *Player);		//give player stats
 void move(struct Players *Player);		//function to move players
 void assignPlace(const int Player_Num);	//place players on slots
 
-void BoardType();
-void magicattack(int attacker, int attacked);
-void disattack(int attacker, int attacked);
+void BoardType();		//assigns random type(ground/city/hill) onto slots
+void magicattack(int attacker, int attacked);			//function for magic attack
+void disattack(int attacker, int attacked);				//function for distance attack
 void nearattack(int attacker, int attacked);			//near attack function
+
+//function which cycles through turns, calls boost, deboost, move, magicattack, disattack, nearattack and findSlots functions
+//depending on option slected
 void turns(const int Player_Num, struct slot *upLeft, struct slot *upRight, struct slot *downLeft, struct slot *downRight);
